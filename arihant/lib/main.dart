@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<bool> checksession() async {
-    dynamic id = await SessionManager().get("username");
+    dynamic id = await SessionManager().get("email");
     if (id != null) {
       return true;
     }

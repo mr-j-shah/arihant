@@ -1,7 +1,5 @@
 // ignore_for_file: camel_case_types
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,6 +20,7 @@ class _addclientState extends State<addclient> {
   final TextEditingController _colleamount = new TextEditingController();
   bool isLoading = true;
   bool isAmountAdded = false;
+  bool isComplete = false;
   String _date = "";
   @override
   void initState() {
@@ -76,8 +75,10 @@ class _addclientState extends State<addclient> {
                       controller: _name,
                       validator: ((value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter a Collection Amount';
+                          isComplete = false;
+                          return 'Enter a Name';
                         } else {
+                          isComplete = true;
                           return null;
                         }
                       }),
@@ -108,8 +109,10 @@ class _addclientState extends State<addclient> {
                         if (value == null ||
                             value.isEmpty ||
                             value.length < 20) {
-                          return 'Enter a Collection Amount';
+                          isComplete = false;
+                          return 'Enter a Proper Address';
                         } else {
+                          isComplete = true;
                           return null;
                         }
                       }),
@@ -141,8 +144,10 @@ class _addclientState extends State<addclient> {
                         if (value == null ||
                             value.isEmpty ||
                             value.length < 10) {
-                          return 'Enter a Collection Amount';
+                          isComplete = false;
+                          return 'Enter a Mobile Number';
                         } else {
+                          isComplete = true;
                           return null;
                         }
                       }),
@@ -186,8 +191,10 @@ class _addclientState extends State<addclient> {
                         if (value == null ||
                             value.isEmpty ||
                             int.parse(value) < 5000) {
-                          return 'Enter a Collection Amount';
+                          isComplete = false;
+                          return 'Enter a Amount';
                         } else {
+                          isComplete = true;
                           return null;
                         }
                       }),
@@ -218,8 +225,10 @@ class _addclientState extends State<addclient> {
                             controller: _totalamount,
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
-                                return 'Enter a Collection Amount';
+                                isComplete = false;
+                                return 'Enter a Total Amount';
                               } else {
+                                isComplete = true;
                                 return null;
                               }
                             }),
@@ -252,11 +261,14 @@ class _addclientState extends State<addclient> {
                             initialValue: "100",
                             onChanged: ((value) {
                               _day.text = value;
+                              // changeday(_day.text);
                             }),
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
-                                return 'Enter a Collection Amount';
+                                isComplete = false;
+                                return 'Enter a Days';
                               } else {
+                                isComplete = true;
                                 return null;
                               }
                             }),
@@ -290,8 +302,10 @@ class _addclientState extends State<addclient> {
                             onChanged: ((value) {}),
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
+                                isComplete = false;
                                 return 'Enter a Collection Amount';
                               } else {
+                                isComplete = true;
                                 return null;
                               }
                             }),
@@ -369,8 +383,18 @@ class _addclientState extends State<addclient> {
     double totalamount = amunt * 1.2;
     double collectamount = totalamount / 100;
     setState(() {
+      _day.text = "100";
       _totalamount.text = totalamount.toString();
       _colleamount.text = collectamount.toString();
     });
   }
+
+  // changeday(String s) {
+  //   int days = int.parse(s);
+  //   double totalamount = double.parse(_totalamount.text);
+  //   double collectamount = totalamount / 100;
+  //   setState(() {
+  //     _colleamount.text = collectamount.toString();
+  //   });
+  // }
 }

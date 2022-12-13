@@ -19,9 +19,10 @@ class authentication {
     print(res.body);
     if (res.statusCode == 200) {
       print("Success");
-      // List<dynamic> resposne = jsonDecode(res.body);
-      if (res.body == "Success") {
-        await SessionManager().set("username", email);
+      Map<String, dynamic> resposne = jsonDecode(res.body);
+      if (resposne["status"] == "success") {
+        await SessionManager().set("email", resposne["email"]);
+        await SessionManager().set("name", resposne["name"]);
         return true;
       }
       return false;
