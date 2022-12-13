@@ -1,3 +1,4 @@
+import 'package:arihant/screens/addclient.dart';
 import 'package:arihant/screens/addcollection.dart';
 import 'package:arihant/screens/graph.dart';
 import 'package:arihant/screens/login.dart';
@@ -52,7 +53,14 @@ class _homepageState extends State<homepage> {
               'Creat Clinet',
               style: TextStyle(fontSize: 18),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const addclient(),
+                ),
+              );
+            },
           ),
           const Divider(),
           ListTile(
@@ -95,7 +103,7 @@ class _homepageState extends State<homepage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: IconButton(
-                      color: Colors.white70,
+                      color: Colors.white,
                       onPressed: () {
                         setState(() {
                           _screencount = 0;
@@ -110,7 +118,7 @@ class _homepageState extends State<homepage> {
                     });
                   },
                   icon: const Icon(Icons.add_circle_outline_sharp),
-                  color: Colors.white70,
+                  color: Colors.white,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
@@ -121,7 +129,7 @@ class _homepageState extends State<homepage> {
                       });
                     },
                     icon: const Icon(Icons.account_box),
-                    color: Colors.white70,
+                    color: Colors.white,
                   ),
                 )
               ],

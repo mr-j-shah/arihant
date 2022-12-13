@@ -67,15 +67,15 @@ class _loginState extends State<login> {
                           }),
 
                           // obscureText: true,
-                          cursorColor: Color.fromRGBO(36, 59, 85, 1),
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: const Color.fromRGBO(238, 238, 238, 1),
                             // border: OutlineInputBorder(),
                             // labelText: 'Email',
                             hintText: 'Email',
-                            hintStyle:
-                                TextStyle(color: Color.fromRGBO(36, 59, 85, 1)),
+                            hintStyle: const TextStyle(
+                                color: Color.fromRGBO(36, 59, 85, 1)),
                             focusedBorder: OutlineInputBorder(
                               borderSide: new BorderSide(
                                   color:
@@ -122,15 +122,15 @@ class _loginState extends State<login> {
                           }),
 
                           // obscureText: true,
-                          cursorColor: Color.fromRGBO(36, 59, 85, 1),
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: const Color.fromRGBO(238, 238, 238, 1),
                             // border: OutlineInputBorder(),
                             // labelText: 'Email',
                             hintText: 'Password',
-                            hintStyle:
-                                TextStyle(color: Color.fromRGBO(36, 59, 85, 1)),
+                            hintStyle: const TextStyle(
+                                color: Color.fromRGBO(36, 59, 85, 1)),
                             focusedBorder: OutlineInputBorder(
                               borderSide: new BorderSide(
                                   color:
@@ -168,14 +168,16 @@ class _loginState extends State<login> {
                             await showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: Text("Aleart"),
-                                content: Text('User Not Found!!'),
+                                title: const Text("Aleart"),
+                                // ignore: prefer_const_constructors
+                                content: Text(
+                                    'Please enter Right Username and Password'),
                                 actions: [
                                   TextButton(
                                     // ignore: prefer_const_constructors
                                     child: Text(
                                       'Ok',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Color.fromRGBO(36, 59, 85, 1)),
                                     ),
                                     onPressed: () {
@@ -213,7 +215,7 @@ class _loginState extends State<login> {
                       ),
                     ),
                   ),
-                ]),
+                ],),
           ),
         ),
       ),

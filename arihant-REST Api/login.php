@@ -27,8 +27,13 @@
                     $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
                     if ($result) {    
                         $row = $result->fetch_assoc();
-                        if ($row["email"] === $username && $row["password"] === $password) {
-                            echo "Success";
+                        if ($row["email"] === $username) {
+                            if ($row["password"] === $password) {
+                                echo "Success";
+                            }
+                            else {
+                                echo "Wrong Password";
+                            }
                         }
                         else {
                             echo "User Not Found";
