@@ -85,6 +85,15 @@ class _homepageState extends State<homepage> {
                 ),
                 const Divider(),
                 ListTile(
+                  leading: const Icon(Icons.update),
+                  title: const Text(
+                    'Update Client Data',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () {},
+                ),
+                const Divider(),
+                ListTile(
                   leading: const Icon(Icons.info),
                   title: const Text(
                     'Today Collection',
@@ -92,6 +101,7 @@ class _homepageState extends State<homepage> {
                   ),
                   onTap: () {},
                 ),
+
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.logout),

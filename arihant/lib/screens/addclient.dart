@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:arihant/api/addclientapi.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -335,6 +336,33 @@ class _addclientState extends State<addclient> {
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
+                            onTap: (() async {
+                              String name = _name.text;
+                              String id =
+                                  "$_date:${name[0].toUpperCase()}${name[1].toUpperCase()}${name[2].toUpperCase()}";
+                              client cli = client(
+                                name: _name.text,
+                                id: id,
+                                mobileno: _mobile.text,
+                                address: _address.text,
+                                doj: _date.toString(),
+                                amount: int.parse(_amount.text),
+                                day: int.parse(_day.text),
+                                penaltyday: 0,
+                                collectam:
+                                    double.parse(_colleamount.text).toInt(),
+                                remainingamount:
+                                    double.parse(_totalamount.text).toInt(),
+                                totalam:
+                                    double.parse(_totalamount.text).toInt(),
+                              );
+                              if (isComplete) {
+                                bool dataAdded = await cli.adddata();
+                                if (dataAdded) {
+                                  print("Data Added");
+                                }
+                              }
+                            }),
                             child: Container(
                               alignment: Alignment.center,
                               width: 240,
