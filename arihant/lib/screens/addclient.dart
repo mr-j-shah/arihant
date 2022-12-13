@@ -1,5 +1,7 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -11,7 +13,15 @@ class addclient extends StatefulWidget {
 }
 
 class _addclientState extends State<addclient> {
+  final TextEditingController _name = new TextEditingController();
+  final TextEditingController _address = new TextEditingController();
+  final TextEditingController _mobile = new TextEditingController();
+  final TextEditingController _amount = new TextEditingController();
+  final TextEditingController _totalamount = new TextEditingController();
+  final TextEditingController _day = new TextEditingController();
+  final TextEditingController _colleamount = new TextEditingController();
   bool isLoading = true;
+  bool isAmountAdded = false;
   String _date = "";
   @override
   void initState() {
@@ -37,7 +47,7 @@ class _addclientState extends State<addclient> {
           : Padding(
               padding: const EdgeInsets.all(8.0),
               child: Form(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.always,
                 child: ListView(children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -63,12 +73,20 @@ class _addclientState extends State<addclient> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      controller: _name,
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a Collection Amount';
+                        } else {
+                          return null;
+                        }
+                      }),
                       // enabled: false,
                       cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                       // initialValue: ,
                       decoration: InputDecoration(
                         labelText: "Name",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: const TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: const BorderSide(color: Colors.green),
@@ -85,13 +103,23 @@ class _addclientState extends State<addclient> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      controller: _address,
+                      validator: ((value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 20) {
+                          return 'Enter a Collection Amount';
+                        } else {
+                          return null;
+                        }
+                      }),
                       maxLines: 6,
                       // enabled: false,
                       cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                       // initialValue: _date,
                       decoration: InputDecoration(
                         labelText: "Address",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: const TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: const BorderSide(color: Colors.green),
@@ -108,101 +136,14 @@ class _addclientState extends State<addclient> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Mobile Number",
-                        labelStyle: TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Amount",
-                        labelStyle: TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Total Amount",
-                        labelStyle: TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      // enabled: false,
-                      keyboardType: TextInputType.number,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Days",
-                        labelStyle: TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
+                      controller: _mobile,
                       validator: ((value) {
-                        if (value == null) {
-                          return "Enter Collection amount";
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 10) {
+                          return 'Enter a Collection Amount';
+                        } else {
+                          return null;
                         }
                       }),
                       keyboardType: TextInputType.number,
@@ -210,8 +151,8 @@ class _addclientState extends State<addclient> {
                       cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                       // initialValue: ,
                       decoration: InputDecoration(
-                        labelText: "Collection Amount",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelText: "Mobile Number",
+                        labelStyle: const TextStyle(color: Colors.black),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: const BorderSide(color: Colors.green),
@@ -225,6 +166,188 @@ class _addclientState extends State<addclient> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: ((value) {
+                        // ignore: unnecessary_null_comparison
+                        if (value == null || value == "" || value.isEmpty) {
+                          _amount.text = "0";
+                        } else {
+                          _amount.text = value;
+                          calculate();
+                        }
+                        print(_amount.text);
+                        setState(() {
+                          isAmountAdded = true;
+                        });
+                      }),
+                      validator: ((value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            int.parse(value) < 5000) {
+                          return 'Enter a Collection Amount';
+                        } else {
+                          return null;
+                        }
+                      }),
+                      keyboardType: TextInputType.number,
+                      // enabled: false,
+                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                      // initialValue: ,
+                      decoration: InputDecoration(
+                        labelText: "Amount",
+                        labelStyle: const TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: const BorderSide(color: Colors.green),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          // ignore: prefer_const_constructors
+                          borderSide: BorderSide(
+                              color: const Color.fromRGBO(36, 59, 85, 1)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  isAmountAdded
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: _totalamount,
+                            validator: ((value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Enter a Collection Amount';
+                              } else {
+                                return null;
+                              }
+                            }),
+                            keyboardType: TextInputType.number,
+                            // enabled: false,
+                            cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                            // initialValue: ,
+                            decoration: InputDecoration(
+                              labelText: "Total Amount",
+                              labelStyle: const TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.green),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                // ignore: prefer_const_constructors
+                                borderSide: BorderSide(
+                                    color: const Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  isAmountAdded
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            initialValue: "100",
+                            onChanged: ((value) {
+                              _day.text = value;
+                            }),
+                            validator: ((value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Enter a Collection Amount';
+                              } else {
+                                return null;
+                              }
+                            }),
+                            // enabled: false,
+                            keyboardType: TextInputType.number,
+                            cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                            // initialValue: ,
+                            decoration: InputDecoration(
+                              labelText: "Days",
+                              labelStyle: const TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.green),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                // ignore: prefer_const_constructors
+                                borderSide: BorderSide(
+                                    color: const Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  isAmountAdded
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: _colleamount,
+                            onChanged: ((value) {}),
+                            validator: ((value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Enter a Collection Amount';
+                              } else {
+                                return null;
+                              }
+                            }),
+                            keyboardType: TextInputType.number,
+                            // enabled: false,
+                            cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                            // initialValue: ,
+                            decoration: InputDecoration(
+                              labelText: "Collection Amount",
+                              labelStyle: const TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.green),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                // ignore: prefer_const_constructors
+                                borderSide: BorderSide(
+                                    color: const Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  isAmountAdded
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 240,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  // ignore: prefer_const_constructors
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    colors: [
+                                      const Color.fromRGBO(20, 30, 48, 1),
+                                      const Color.fromRGBO(36, 59, 85, 1),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Adagio Sans",
+                                    color: Color.fromRGBO(255, 255, 255, 1)),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ]),
               ),
             ),
@@ -238,6 +361,16 @@ class _addclientState extends State<addclient> {
     setState(() {
       isLoading = false;
       _date = formatted;
+    });
+  }
+
+  calculate() {
+    int amunt = int.parse(_amount.text);
+    double totalamount = amunt * 1.2;
+    double collectamount = totalamount / 100;
+    setState(() {
+      _totalamount.text = totalamount.toString();
+      _colleamount.text = collectamount.toString();
     });
   }
 }
