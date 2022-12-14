@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:arihant/api/addclientapi.dart';
+import 'package:arihant/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -337,29 +338,73 @@ class _addclientState extends State<addclient> {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: (() async {
-                              String name = _name.text;
-                              String id =
-                                  "$_date:${name[0].toUpperCase()}${name[1].toUpperCase()}${name[2].toUpperCase()}";
-                              client cli = client(
-                                name: _name.text,
-                                id: id,
-                                mobileno: _mobile.text,
-                                address: _address.text,
-                                doj: _date.toString(),
-                                amount: int.parse(_amount.text),
-                                day: int.parse(_day.text),
-                                penaltyday: 0,
-                                collectam:
-                                    double.parse(_colleamount.text).toInt(),
-                                remainingamount:
-                                    double.parse(_totalamount.text).toInt(),
-                                totalam:
-                                    double.parse(_totalamount.text).toInt(),
-                              );
+                              if (_name.text.isEmpty ||
+                                  _address.text.isEmpty ||
+                                  _mobile.text.isEmpty ||
+                                  _amount.text.isEmpty) {
+                                isComplete = false;
+                              }
                               if (isComplete) {
+                                String name = _name.text;
+                                String id =
+                                    "$_date:${name[0].toUpperCase()}${name[1].toUpperCase()}${name[2].toUpperCase()}${name[3].toUpperCase()}";
+                                client cli = client(
+                                  name: _name.text,
+                                  id: id,
+                                  mobileno: _mobile.text,
+                                  address: _address.text,
+                                  doj: _date.toString(),
+                                  amount: int.parse(_amount.text),
+                                  day: int.parse(_day.text),
+                                  penaltyday: 0,
+                                  collectam:
+                                      double.parse(_colleamount.text).toInt(),
+                                  remainingamount:
+                                      double.parse(_totalamount.text).toInt(),
+                                  totalam:
+                                      double.parse(_totalamount.text).toInt(),
+                                );
                                 bool dataAdded = await cli.adddata();
                                 if (dataAdded) {
-                                  print("Data Added");
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text("Add Client Form"),
+                                      content: Text(
+                                          'Clinet Created Successfully! ID No:${cli.id}'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Ok'),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const homepage(),
+                                    ),
+                                  );
+                                } else {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text("Aleart"),
+                                      content: const Text('Please Enter data'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Ok'),
+                                        )
+                                      ],
+                                    ),
+                                  );
                                 }
                               }
                             }),
