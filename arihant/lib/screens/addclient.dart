@@ -1,6 +1,6 @@
 // ignore_for_file: camel_case_types
 
-import 'package:arihant/api/addclientapi.dart';
+import 'package:arihant/api/clientapi.dart';
 import 'package:arihant/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -345,9 +345,13 @@ class _addclientState extends State<addclient> {
                                 isComplete = false;
                               }
                               if (isComplete) {
+                                final DateTime now = DateTime.now();
+                                final DateFormat formatter =
+                                    DateFormat('yyyy-MM-dd:h-mm');
+                                final String formatted = formatter.format(now);
                                 String name = _name.text;
                                 String id =
-                                    "$_date:${name[0].toUpperCase()}${name[1].toUpperCase()}${name[2].toUpperCase()}${name[3].toUpperCase()}";
+                                    "$formatted:${name[0].toUpperCase()}${name[1].toUpperCase()}${name[2].toUpperCase()}${name[3].toUpperCase()}";
                                 client cli = client(
                                   name: _name.text,
                                   id: id,
@@ -363,6 +367,7 @@ class _addclientState extends State<addclient> {
                                       double.parse(_totalamount.text).toInt(),
                                   totalam:
                                       double.parse(_totalamount.text).toInt(),
+                                  updatedate: _date.toString(),
                                 );
                                 bool dataAdded = await cli.adddata();
                                 if (dataAdded) {

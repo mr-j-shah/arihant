@@ -19,7 +19,7 @@ class _homepageState extends State<homepage> {
   String _name = "";
   String _email = "";
   int _screencount = 1;
-  List<Widget> screens = [graph(), addcollection(), user()];
+  List<Widget> screens = [const graph(), const addcollection(), const user()];
   @override
   void initState() {
     getdata();

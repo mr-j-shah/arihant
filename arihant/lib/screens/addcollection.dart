@@ -1,6 +1,8 @@
 // ignore_for_file: camel_case_types
 
+import 'package:arihant/api/clientapi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 
 class addcollection extends StatefulWidget {
@@ -11,12 +13,33 @@ class addcollection extends StatefulWidget {
 }
 
 class _addcollectionState extends State<addcollection> {
+  List<client> clientList = [];
   bool isLoading = true;
   String _date = "";
+  String _name = "";
+  String _email = "";
   @override
   void initState() {
     getdata();
+
     super.initState();
+  }
+
+  getdata() async {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(now);
+    dynamic email = await SessionManager().get("email");
+    dynamic name = await SessionManager().get("name");
+    setState(() {
+      isLoading = false;
+      _date = formatted;
+      _name = name.toString();
+      _email = email.toString();
+    });
+    getclinet(_email).then((value) {
+      clientList = value;
+    });
   }
 
   @override
@@ -57,15 +80,5 @@ class _addcollectionState extends State<addcollection> {
               ]),
             ),
           );
-  }
-
-  getdata() {
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String formatted = formatter.format(now);
-    setState(() {
-      isLoading = false;
-      _date = formatted;
-    });
   }
 }
