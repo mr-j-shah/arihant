@@ -8,25 +8,34 @@
         die("Connection failed: " . $conn->connect_error);
     }
     else {
-        $_POST = json_decode(file_get_contents('php://input'),TRUE);  
-        $email = $_POST["email"];
-        $usersql = "SELECT * FROM user_table WHERE email='$email'";
-        $authenticat = $conn->query($usersql) or die("Error in Selecting " . mysqli_error($conn));
-        $status = $authenticat->fetch_assoc();
-        if( $status["email"]===$email)
+        $_POST = json_decode(file_get_contents('php://input'),TRUE);
+        if ($_SERVER["REQUEST_METHOD"]=='POST' && isset($_POST["email"])) 
         {
-	        $sql="SELECT * FROM `client`";
-
-            $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
-	        if ($result) {    
-                while($row=$result->fetch_assoc()){
-			        $info[]=$row;
-		        }
-	        } else {
-		        $info[] ="Sorry";	
-	        }
-	        echo json_encode($info);
-	       //echo "Authenticat";
+              
+            $email = $_POST["email"];
+            $usersql = "SELECT * FROM user_table WHERE email='$email'";
+            $updateresult = $conn->query($usersql) or die("Error in Selecting " . mysqli_error($conn));
+            while($value=$updateresult->fetch_assoc()){
+    			 $data[]=$value;
+    		}
+            if( $data[0]["email"]===$email )
+            {
+    	        $sql="SELECT * FROM `client`";
+    
+                $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
+    	        if ($result) {    
+                    while($row=$result->fetch_assoc()){
+    			        $info[]=$row;
+    		        }
+    	        } else {
+    		        $info[] ="Sorry";	
+    	        }
+    	        echo json_encode($info);
+    	       ////echo "Authenticat";
+            }
+            else{
+                echo "Unauther Access";
+            }
         }
         else{
             echo "Unauther Access";
