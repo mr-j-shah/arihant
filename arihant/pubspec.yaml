@@ -39,6 +39,7 @@ dependencies:
   flutter_session_manager: ^1.0.3
   http: ^0.13.5
   intl: ^0.17.0
+  searchfield: ^0.7.2
 
 dev_dependencies:
   flutter_test:

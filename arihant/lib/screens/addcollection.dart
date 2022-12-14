@@ -1,9 +1,12 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:ui';
+
 import 'package:arihant/api/clientapi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:searchfield/searchfield.dart';
 
 class addcollection extends StatefulWidget {
   const addcollection({super.key});
@@ -18,10 +21,19 @@ class _addcollectionState extends State<addcollection> {
   String _date = "";
   String _name = "";
   String _email = "";
+  late int _fixamount = 0;
+  List<String> idList = [];
+  bool isSelected = false;
+  bool isComplete = false;
+  final TextEditingController _id = TextEditingController();
+  final TextEditingController _clientname = TextEditingController();
+  final TextEditingController _collectionamount = TextEditingController();
+  final TextEditingController _remainingamount = TextEditingController();
+  final TextEditingController _days = TextEditingController();
+  final TextEditingController _penaltydays = TextEditingController();
   @override
   void initState() {
     getdata();
-
     super.initState();
   }
 
@@ -32,13 +44,19 @@ class _addcollectionState extends State<addcollection> {
     dynamic email = await SessionManager().get("email");
     dynamic name = await SessionManager().get("name");
     setState(() {
-      isLoading = false;
       _date = formatted;
       _name = name.toString();
       _email = email.toString();
     });
-    getclinet(_email).then((value) {
+    await getclinet(_email).then((value) {
       clientList = value;
+    });
+    for (var data in clientList) {
+      idList.add(data.id);
+    }
+    print(idList.length);
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -66,7 +84,8 @@ class _addcollectionState extends State<addcollection> {
                       labelText: "Date",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(color: Colors.green),
+                        borderSide: const BorderSide(
+                            color: Color.fromRGBO(36, 59, 85, 1)),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
@@ -74,9 +93,285 @@ class _addcollectionState extends State<addcollection> {
                         borderSide: BorderSide(
                             color: const Color.fromRGBO(36, 59, 85, 1)),
                       ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
                     ),
                   ),
-                )
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: SearchField(
+                    suggestionAction: SuggestionAction.unfocus,
+                    suggestions: idList
+                        .map(
+                          (e) => SearchFieldListItem<String>(
+                            e,
+                            item: e,
+                          ),
+                        )
+                        .toList(),
+                    searchInputDecoration: InputDecoration(
+                      labelStyle: const TextStyle(color: Colors.black),
+                      labelText: "Client Id",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: const BorderSide(
+                            color: Color.fromRGBO(36, 59, 85, 1)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: const BorderSide(
+                            color: Color.fromRGBO(36, 59, 85, 1)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                    ),
+                    // validator: MultiValidator([
+                    //   RequiredValidator(errorText: "Cannot Be Empty"),
+                    // ]),
+                    onSuggestionTap: (val) {
+                      print(val.item);
+                      setState(() {
+                        _id.text = val.item.toString();
+                      });
+                      bool check = idList.contains(val.item);
+                      print(check);
+                      if (check == true) {
+                        print("contains");
+                        int index = idList.indexOf(val.item.toString());
+                        setState(() {
+                          _clientname.text = clientList[index].name;
+                          _collectionamount.text =
+                              clientList[index].collectam.toString();
+                          _fixamount = clientList[index].collectam;
+                          _remainingamount.text =
+                              clientList[index].remainingamount.toString();
+                          _days.text = clientList[index].day.toString();
+                          _penaltydays.text =
+                              clientList[index].penaltyday.toString();
+                          isSelected = true;
+                        });
+                      }
+                    },
+                    maxSuggestionsInViewPort: 6,
+                    itemHeight: 50,
+                  ),
+                ),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _clientname,
+                          enabled: false,
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                          // initialValue: _date,
+                          decoration: InputDecoration(
+                            labelText: "Client Name",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              // ignore: prefer_const_constructors
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          onChanged: ((value) {
+                            setState(() {
+                              if (_fixamount > int.parse(value)) {
+                                isComplete = false;
+                              } else {
+                                isComplete = true;
+                              }
+                            });
+                          }),
+                          keyboardType: TextInputType.number,
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Amount";
+                            }
+                            return null;
+                          }),
+                          controller: _collectionamount,
+                          // enabled: false,
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                          // initialValue: _date,
+                          decoration: InputDecoration(
+                            labelText: "Collection Amount",
+                            labelStyle: const TextStyle(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              // ignore: prefer_const_constructors
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _remainingamount,
+                          enabled: false,
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                          // initialValue: _date,
+                          decoration: InputDecoration(
+                            labelText: "Remaining Amount",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              // ignore: prefer_const_constructors
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _days,
+                          enabled: false,
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                          // initialValue: _date,
+                          decoration: InputDecoration(
+                            labelText: "Remaining Days",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              // ignore: prefer_const_constructors
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _penaltydays,
+                          enabled: false,
+                          cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                          // initialValue: _date,
+                          decoration: InputDecoration(
+                            labelText: "Penalty Days",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              // ignore: prefer_const_constructors
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: (() async {}),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 240,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                color: const Color.fromRGBO(86, 171, 47, 1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Text(
+                              "Collect",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Adagio Sans",
+                                  color: Color.fromRGBO(255, 255, 255, 1)),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: (() async {}),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 240,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Text(
+                              "Penalty",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Adagio Sans",
+                                  color: Color.fromRGBO(255, 255, 255, 1)),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
               ]),
             ),
           );

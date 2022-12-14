@@ -351,7 +351,7 @@ class _addclientState extends State<addclient> {
                                 final String formatted = formatter.format(now);
                                 String name = _name.text;
                                 String id =
-                                    "$formatted:${name[0].toUpperCase()}${name[1].toUpperCase()}${name[2].toUpperCase()}${name[3].toUpperCase()}";
+                                    "$formatted:${name[0].toUpperCase()}${name[1].toUpperCase()}";
                                 client cli = client(
                                   name: _name.text,
                                   id: id,
