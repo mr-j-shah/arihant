@@ -3,10 +3,13 @@
 import 'dart:ui';
 
 import 'package:arihant/api/clientapi.dart';
+import 'package:arihant/api/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:searchfield/searchfield.dart';
+
+import 'home.dart';
 
 class addcollection extends StatefulWidget {
   const addcollection({super.key});
@@ -24,7 +27,7 @@ class _addcollectionState extends State<addcollection> {
   late int _fixamount = 0;
   List<String> idList = [];
   bool isSelected = false;
-  bool isComplete = false;
+  bool isComplete = true;
   final TextEditingController _id = TextEditingController();
   final TextEditingController _clientname = TextEditingController();
   final TextEditingController _collectionamount = TextEditingController();
@@ -330,7 +333,62 @@ class _addcollectionState extends State<addcollection> {
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
-                          onTap: (() async {}),
+                          onTap: (() async {
+                            if (isComplete) {
+                              final DateTime now = DateTime.now();
+                              final DateFormat formatter =
+                                  DateFormat('yyyy-MM-dd:H-mm-ss');
+                              final String formatted = formatter.format(now);
+                              bool status = await addcollectionapi(
+                                  _id.text,
+                                  formatted,
+                                  _email,
+                                  int.parse(_collectionamount.text),
+                                  _date);
+                              if (status) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text("Collection"),
+                                    content: Text(
+                                        'Collection is added for ID No:${_id.text}'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Ok'),
+                                      )
+                                    ],
+                                  ),
+                                );
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const homepage(),
+                                  ),
+                                );
+                              }
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text("Error"),
+                                  content: Text(
+                                      'Collection Amount is Less then Decided for ID No:${_id.text}'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Ok'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                          }),
                           child: Container(
                             alignment: Alignment.center,
                             width: 240,
@@ -353,7 +411,34 @@ class _addcollectionState extends State<addcollection> {
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
-                          onTap: (() async {}),
+                          onTap: (() async {
+                            bool status = await addpenalty(_id.text);
+                            if (status) {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text("Penalty"),
+                                  content: Text(
+                                      'Penalty is added for ID No:${_id.text}'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Ok'),
+                                    )
+                                  ],
+                                ),
+                              );
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const homepage(),
+                                ),
+                              );
+                            }
+                          }),
                           child: Container(
                             alignment: Alignment.center,
                             width: 240,

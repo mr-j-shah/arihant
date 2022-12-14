@@ -4,17 +4,24 @@ import 'package:http/http.dart' as http;
 
 Future<void> verifyotp() async {
   final response = await http.post(
-    Uri.parse('http://bhimshaktivicharmanch.com/arihant/addpenalty.php'),
+    Uri.parse('http://bhimshaktivicharmanch.com/arihant/addcollection.php'),
     headers: {"Content-Type": "application/json"},
     body: jsonEncode(
-      <String, dynamic>{'id': '2022-12-14:1-48:BHAV'},
+      <String, dynamic>{
+        'collectionid': '9973818',
+        'id': '2022-12-14:1-48:BHAV',
+        'date': '2022-12-14',
+        'email': 'shahjinay02@gmail.co',
+        'collectionamount': '200'
+      },
     ),
   );
   print(response.statusCode);
   print(response.body);
   if (response.statusCode == 200) {
-    print("Success");
-
+    if (response.body == "Success") {
+      print("Success");
+    }
     // List<dynamic> res = jsonDecode(response.body);
   } else {
     print("Fail");
