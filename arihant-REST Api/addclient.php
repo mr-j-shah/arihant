@@ -17,13 +17,12 @@
             $address = $_POST["address"];
             $mobileno = $_POST["mobileno"];
             $amount = $_POST["amount"];
-            $totalamount = $_POST["totalamount"];
-            $days = $_POST["days"];
-            $collectionamount = $_POST["collectionamount"];
+            $updatedate = $_POST["updatedat"];
+            $noofacc = $_POST["noofacc"];
             $penalty = $_POST["penalty"];
             $remainingamount = $_POST["remainingamount"];
             
-            $sql="INSERT INTO `client`(`id`, `name`, `doj`, `address`, `mobileno`, `amount`, `totalamount`, `days`, `collectionamount`, `penalty`, `remainingamount`) VALUES ('$id','$name','$doj','$address','$mobileno','$amount','$totalamount','$days','$collectionamount','$penalty','$remainingamount')";
+            $sql="INSERT INTO `client`(`id`, `name`, `doj`, `address`, `mobileno`, `amount`,   `penalty`,`remainingamount`,`updatedate`,`noofacc`) VALUES ('$id','$name','$doj','$address','$mobileno','$amount','$penalty','$remainingamount','$doj','$noofacc')";
             echo $sql;
             $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
 
@@ -38,5 +37,6 @@
             echo"Unauther access";
         }
     }
+    
     $conn->close();
 ?>

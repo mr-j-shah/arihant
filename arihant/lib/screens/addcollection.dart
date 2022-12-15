@@ -16,8 +16,8 @@ class addcollection extends StatefulWidget {
 }
 
 class _addcollectionState extends State<addcollection> {
-  List<client> clientList = [];
-  List<client> clientList2 = [];
+  List<Account> accList = [];
+  List<Account> accList2 = [];
   bool isLoading = true;
   String _date = "";
   String _name = "";
@@ -27,11 +27,11 @@ class _addcollectionState extends State<addcollection> {
   bool isSelected = false;
   bool isComplete = true;
   final TextEditingController _id = TextEditingController();
-  final TextEditingController _clientname = TextEditingController();
+  final TextEditingController _clientid = TextEditingController();
   final TextEditingController _collectionamount = TextEditingController();
   final TextEditingController _remainingamount = TextEditingController();
   final TextEditingController _days = TextEditingController();
-  final TextEditingController _penaltydays = TextEditingController();
+  final TextEditingController _amount = TextEditingController();
   @override
   void initState() {
     getdata();
@@ -49,13 +49,13 @@ class _addcollectionState extends State<addcollection> {
       _name = name.toString();
       _email = email.toString();
     });
-    await getclinet(_email).then((value) {
-      clientList = value;
+    await getcAcc(_email).then((value) {
+      accList = value;
     });
-    for (var data in clientList) {
-      if (data.day > 0) {
-        idList.add(data.id);
-        clientList2.add(data);
+    for (var data in accList) {
+      if (data.days > 0) {
+        idList.add(data.accountno);
+        accList2.add(data);
       }
     }
     print(idList.length);
@@ -66,6 +66,7 @@ class _addcollectionState extends State<addcollection> {
 
   @override
   Widget build(BuildContext context) {
+    // return Container();
     return isLoading
         // ignore: prefer_const_constructors
         ? Center(
@@ -104,7 +105,7 @@ class _addcollectionState extends State<addcollection> {
                     ),
                   ),
                 ),
-                clientList2.isEmpty
+                accList2.isEmpty
                     ? Container()
                     : Container(
                         decoration: BoxDecoration(
@@ -123,7 +124,7 @@ class _addcollectionState extends State<addcollection> {
                               .toList(),
                           searchInputDecoration: InputDecoration(
                             labelStyle: const TextStyle(color: Colors.black),
-                            labelText: "Client Id",
+                            labelText: "Account No:",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: const BorderSide(
@@ -153,16 +154,15 @@ class _addcollectionState extends State<addcollection> {
                               print("contains");
                               int index = idList.indexOf(val.item.toString());
                               setState(() {
-                                _clientname.text = clientList2[index].name;
+                                _clientid.text = accList2[index].id;
                                 _collectionamount.text =
-                                    clientList2[index].collectam.toString();
-                                _fixamount = clientList2[index].collectam;
-                                _remainingamount.text = clientList2[index]
-                                    .remainingamount
-                                    .toString();
-                                _days.text = clientList2[index].day.toString();
-                                _penaltydays.text =
-                                    clientList2[index].penaltyday.toString();
+                                    accList2[index].collection.toString();
+                                _fixamount = accList2[index].collection;
+                                _remainingamount.text =
+                                    accList2[index].remAmount.toString();
+                                _days.text = accList2[index].days.toString();
+                                _amount.text =
+                                    accList2[index].amount.toString();
                                 isSelected = true;
                               });
                             }
@@ -175,12 +175,12 @@ class _addcollectionState extends State<addcollection> {
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          controller: _clientname,
+                          controller: _clientid,
                           enabled: false,
                           cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           // initialValue: _date,
                           decoration: InputDecoration(
-                            labelText: "Client Name",
+                            labelText: "Client Id",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: const BorderSide(
@@ -308,12 +308,12 @@ class _addcollectionState extends State<addcollection> {
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          controller: _penaltydays,
+                          controller: _amount,
                           enabled: false,
                           cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           // initialValue: _date,
                           decoration: InputDecoration(
-                            labelText: "Penalty Days",
+                            labelText: "Total Amount",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: const BorderSide(
@@ -344,11 +344,12 @@ class _addcollectionState extends State<addcollection> {
                                   DateFormat('yyyy-MM-dd:H-mm-ss');
                               final String formatted = formatter.format(now);
                               bool status = await addcollectionapi(
-                                  _id.text,
+                                  _clientid.text,
                                   formatted,
                                   _email,
                                   int.parse(_collectionamount.text),
-                                  _date);
+                                  _date,
+                                  _id.text);
                               if (status) {
                                 await showDialog(
                                   context: context,
@@ -416,7 +417,7 @@ class _addcollectionState extends State<addcollection> {
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: (() async {
-                            bool status = await addpenalty(_id.text);
+                            bool status = await addpenalty(_clientid.text);
                             if (status) {
                               await showDialog(
                                 context: context,

@@ -353,30 +353,37 @@ class _addclientState extends State<addclient> {
                                 String id =
                                     "$formatted:${name[0].toUpperCase()}${name[1].toUpperCase()}";
                                 client cli = client(
+                                  noOfAcc: 1,
                                   name: _name.text,
                                   id: id,
                                   mobileno: _mobile.text,
                                   address: _address.text,
                                   doj: _date.toString(),
                                   amount: int.parse(_amount.text),
-                                  day: int.parse(_day.text),
                                   penaltyday: 0,
-                                  collectam:
-                                      double.parse(_colleamount.text).toInt(),
                                   remainingamount:
-                                      double.parse(_totalamount.text).toInt(),
-                                  totalam:
                                       double.parse(_totalamount.text).toInt(),
                                   updatedate: _date.toString(),
                                 );
-                                bool dataAdded = await cli.adddata();
+                                Account acc = Account(
+                                    id: id,
+                                    accountno: id + "1",
+                                    amount: int.parse(_amount.text),
+                                    collection:
+                                        double.parse(_colleamount.text).toInt(),
+                                    days: int.parse(_day.text),
+                                    remAmount: double.parse(_totalamount.text)
+                                        .toInt());
+                                bool dataAdded = await cli.addClient();
+                                bool accCreate = await acc.adddAcc();
                                 if (dataAdded) {
                                   await showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: const Text("Add Client Form"),
                                       content: Text(
-                                          'Clinet Created Successfully! ID No:${cli.id}'),
+                                          'Clinet Created Successfully! ID No:${cli.id}' +
+                                              'And Account No:${acc.accountno}'),
                                       actions: [
                                         TextButton(
                                           onPressed: () {

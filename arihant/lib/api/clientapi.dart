@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 
 class client {
   String id, name, address, mobileno, doj;
-  int amount, totalam, penaltyday, day, collectam, remainingamount;
-
+  int amount, penaltyday, remainingamount, noOfAcc;
   String updatedate;
   client(
       {required this.name,
@@ -13,14 +12,12 @@ class client {
       required this.address,
       required this.doj,
       required this.amount,
-      required this.day,
+      required this.noOfAcc,
       required this.penaltyday,
-      required this.collectam,
       required this.remainingamount,
-      required this.totalam,
       required this.updatedate});
 
-  Future<bool> adddata() async {
+  Future<bool> addClient() async {
     final res = await http.post(
       Uri.parse('http://bhimshaktivicharmanch.com/arihant/addclient.php'),
       headers: {"Content-type": "application/json"},
@@ -32,11 +29,10 @@ class client {
           'address': address,
           'mobileno': mobileno,
           'amount': amount,
-          'totalamount': totalam,
-          'days': day,
-          'collectionamount': collectam,
+          'noofacc': noOfAcc,
           'penalty': penaltyday,
-          'remainingamount': remainingamount
+          'remainingamount': remainingamount,
+          'updatedat': updatedate
         },
       ),
     );
@@ -52,7 +48,45 @@ class client {
   }
 }
 
-Converter(Map<String, dynamic> c) {
+class Account {
+  String id, accountno;
+  int amount, remAmount, days, collection;
+  Account(
+      {required this.id,
+      required this.accountno,
+      required this.amount,
+      required this.collection,
+      required this.days,
+      required this.remAmount});
+
+  Future<bool> adddAcc() async {
+    final res = await http.post(
+      Uri.parse('http://bhimshaktivicharmanch.com/arihant/addaccount.php'),
+      headers: {"Content-type": "application/json"},
+      body: jsonEncode(
+        <String, dynamic>{
+          'id': id,
+          'accountno': accountno,
+          'amount': amount,
+          'remAmount': remAmount,
+          'days': days,
+          'collection': collection
+        },
+      ),
+    );
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      print("Success");
+      return true;
+    } else {
+      print("Fail");
+      return false;
+    }
+  }
+}
+
+ConverterClient(Map<String, dynamic> c) {
   return client(
       name: c["name"],
       id: c["id"],
@@ -60,18 +94,16 @@ Converter(Map<String, dynamic> c) {
       address: c["address"],
       doj: c["doj"],
       amount: int.parse(c["amount"]),
-      day: int.parse(c["days"]),
+      noOfAcc: int.parse(c["noofacc"]),
       penaltyday: int.parse(c["penalty"]),
-      collectam: int.parse(c["collectionamount"]),
       remainingamount: int.parse(c["remainingamount"]),
-      totalam: int.parse(c["totalamount"]),
       updatedate: c["updatedate"]);
 }
 
-List<client> listToObj(List<dynamic> list) {
+List<client> listToObjClient(List<dynamic> list) {
   List<client> clientList = [];
   for (var i in list) {
-    client data = Converter(i);
+    client data = ConverterClient(i);
     clientList.add(data);
   }
   return clientList;
@@ -91,7 +123,48 @@ Future<List<client>> getclinet(String email) async {
   if (response.statusCode == 200) {
     print("Success");
     List<dynamic> res = jsonDecode(response.body);
-    datalist = listToObj(res);
+    datalist = listToObjClient(res);
+  } else {
+    print("Fail");
+  }
+  return datalist;
+}
+
+ConverterAcc(Map<String, dynamic> c) {
+  return Account(
+    id: c["id"],
+    accountno: c["accountno"],
+    remAmount: int.parse(c["remAmount"]),
+    days: int.parse(c["days"]),
+    amount: int.parse(c["amount"]),
+    collection: int.parse(c["collection"]),
+  );
+}
+
+List<Account> listToObjAcc(List<dynamic> list) {
+  List<Account> clientList = [];
+  for (var i in list) {
+    Account data = ConverterAcc(i);
+    clientList.add(data);
+  }
+  return clientList;
+}
+
+Future<List<Account>> getcAcc(String email) async {
+  List<Account> datalist = [];
+  final response = await http.post(
+    Uri.parse('http://bhimshaktivicharmanch.com/arihant/getaccount.php'),
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode(
+      <String, dynamic>{'email': email},
+    ),
+  );
+  print(response.statusCode);
+  print(response.body);
+  if (response.statusCode == 200) {
+    print("Success");
+    List<dynamic> res = jsonDecode(response.body);
+    datalist = listToObjAcc(res);
   } else {
     print("Fail");
   }

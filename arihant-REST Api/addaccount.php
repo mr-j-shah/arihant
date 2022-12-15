@@ -12,19 +12,22 @@
         $_POST= json_decode(file_get_contents('php://input'),true);
         if ($_SERVER["REQUEST_METHOD"]=='POST' && isset($_POST)) {
             $id = $_POST["id"];
-            $collectionid = $_POST["collectionid"];
-            $date = $_POST["date"];
-            $email = $_POST["email"];
-            $collectionamount= $_POST["collectionamount"];
             $accountno = $_POST["accountno"];
-            include("updateclientcollection.php");
-            $sql="INSERT INTO `collection`(`collectionid`, `date`, `id`, `email`, `collectionamount`) VALUES ('$collectionid','$date','$id','$email','$collectionamount')";
+            $amount = $_POST["amount"];
+            $remAmount = $_POST["remAmount"];
+            $days = $_POST["days"];
+            $collection = $_POST["collection"];
+            
+            
+            $sql="INSERT INTO `account`(`id`, `accountno`, `amount`, `remAmount`, `days`, `collection`) VALUES ('$id','$accountno','$amount','$remAmount','$days','$collection')";
+            echo $sql;
             $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
+
 	        if ($result) { 
 	            
                 echo "Success";	
         	} else {
-		        echo "Error";	
+		        echo "Sorry";	
             }
         }
         else{

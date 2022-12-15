@@ -29,14 +29,17 @@
                         $row = $result->fetch_assoc();
                         if ($row["email"] === $username) {
                             if ($row["password"] === $password) {
-                                echo "Success";
+                                $info = array("name"=>$row["name"],"email"=>$row["email"],"status"=>"success");
+                                echo  json_encode($info);
                             }
                             else {
-                                echo "Wrong Password";
+                                $info = array("status"=>"Wrong Password");
+                                echo  json_encode($info);
                             }
                         }
                         else {
-                            echo "User Not Found";
+                            $info = array("status"=>"User Not Found");
+                                echo  json_encode($info);
                         }
                     } else {
                         die("Error in Fetching data");	
