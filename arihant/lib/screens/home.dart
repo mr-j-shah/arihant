@@ -6,6 +6,8 @@ import 'package:arihant/screens/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
+import 'todaycollection.dart';
+
 // ignore: camel_case_types
 class homepage extends StatefulWidget {
   const homepage({super.key});
@@ -99,7 +101,14 @@ class _homepageState extends State<homepage> {
                     'Today Collection',
                     style: TextStyle(fontSize: 18),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const collectiondata(),
+                      ),
+                    );
+                  },
                 ),
 
                 const Divider(),

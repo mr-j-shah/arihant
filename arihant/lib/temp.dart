@@ -4,15 +4,16 @@ import 'package:http/http.dart' as http;
 
 Future<void> verifyotp() async {
   final response = await http.post(
-    Uri.parse('http://bhimshaktivicharmanch.com/arihant/addcollection.php'),
+    Uri.parse(
+        'http://bhimshaktivicharmanch.com/arihant/gettodaycollection.php'),
     headers: {"Content-Type": "application/json"},
     body: jsonEncode(
       <String, dynamic>{
-        'collectionid': '9973818',
-        'id': '2022-12-14:1-48:BHAV',
+        // 'collectionid': '9973818',
+        // 'id': '2022-12-14:1-48:BHAV',
         'date': '2022-12-14',
-        'email': 'shahjinay02@gmail.co',
-        'collectionamount': '200'
+        'email': 'daxay2310@gmail.com',
+        // 'collectionamount': '200'
       },
     ),
   );
