@@ -38,26 +38,30 @@ class _graphState extends State<graph> {
           )
         : Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: SfCartesianChart(
-                    plotAreaBackgroundColor: Colors.white60,
-                    primaryXAxis: CategoryAxis(
-                        arrangeByIndex:
-                            true // Arranges the series base on the axis index values
+              data.isEmpty
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: SfCartesianChart(
+                          plotAreaBackgroundColor: Colors.white60,
+                          primaryXAxis: CategoryAxis(
+                              arrangeByIndex:
+                                  true // Arranges the series base on the axis index values
+                              ),
+                          series: <ChartSeries<DailyCollection, String>>[
+                            // Renders column chart
+                            ColumnSeries<DailyCollection, String>(
+                                dataSource: data,
+                                xValueMapper: (DailyCollection data, _) =>
+                                    data.date,
+                                yValueMapper: (DailyCollection data, _) =>
+                                    data.Total)
+                          ],
                         ),
-                    series: <ChartSeries<DailyCollection, String>>[
-                      // Renders column chart
-                      ColumnSeries<DailyCollection, String>(
-                          dataSource: data,
-                          xValueMapper: (DailyCollection data, _) => data.date,
-                          yValueMapper: (DailyCollection data, _) => data.Total)
-                    ],
-                  ),
-                ),
-              ),
+                      ),
+                    ),
             ],
           );
   }
