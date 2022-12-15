@@ -13,6 +13,7 @@
         {
 
             $email = $_POST["email"];
+            $date = $_POST["date"];
             $usersql = "SELECT * FROM user_table WHERE email='$email'";
             $updateresult = $conn->query($usersql) or die("Error in Selecting " . mysqli_error($conn));
             while($value=$updateresult->fetch_assoc()){
@@ -20,15 +21,15 @@
     		}
             if( $data[0]["email"]===$email )
             {
-    	        $sql="SELECT * FROM `collection` WHERE id = '$id' AND email = '$email'";
-    
+    	        $sql="SELECT * FROM collection INNER JOIN client ON collection.id=client.id WHERE date = '$date' AND email = '$email'";
+                
                 $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
-    	        if ($result) {    
+    	        if ($result->num_rows > 0) {    
                     while($row=$result->fetch_assoc()){
     			        $info[]=$row;
     		        }
     	        } else {
-    		        $info[] ="Sorry";	
+    		        $info = array();	
     	        }
     	        echo json_encode($info);
     	       ////echo "Authenticat";

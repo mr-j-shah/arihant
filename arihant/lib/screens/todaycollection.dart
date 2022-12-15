@@ -76,7 +76,7 @@ class _collectiondataState extends State<collectiondata> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       elevation: 1.5,
-                      color: Colors.green[50],
+                      color: Colors.blue[50],
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -105,94 +105,43 @@ class _collectiondataState extends State<collectiondata> {
                     ),
                   ),
                   ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: clientList.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            height: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Card(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      clientList[index].id,
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                    const Divider(
-                                      color: Colors.black87,
-                                      indent: 10,
-                                      endIndent: 10,
-                                    ),
-                                    Text(
-                                      clientList[index].name,
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                  ],
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: clientList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Card(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  clientList[index].id,
+                                  style: const TextStyle(fontSize: 20),
                                 ),
-                              ),
-                            ));
-                      })
+                                const Divider(
+                                  color: Colors.black87,
+                                  indent: 10,
+                                  endIndent: 10,
+                                ),
+                                Text(
+                                  clientList[index].name,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
-      // Column(
-      //     children: [
-      //       Container(
-      //         height: MediaQuery.of(context).size.height * 0.2,
-      //         margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-      //         // width: width,
-      //         child: Card(
-      //           shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.circular(15.0),
-      //           ),
-      //           elevation: 1.5,
-      //           color: Colors.green[50],
-      //           child: Container(
-      //             padding: const EdgeInsets.all(10),
-      //             child: Column(
-      //               crossAxisAlignment: CrossAxisAlignment.start,
-      //               children: [
-      //                 const Text(
-      //                   "Total Collection Amount: ",
-      //                   style: TextStyle(
-      //                     fontSize: 14,
-      //                     fontWeight: FontWeight.w700,
-      //                     color: const Color.fromRGBO(36, 59, 85, 1),
-      //                   ),
-      //                 ),
-      //                 Center(
-      //                   child: Text(
-      //                     totalAmount.toString(),
-      //                     style: const TextStyle(
-      //                       fontSize: 28,
-      //                       fontWeight: FontWeight.w700,
-      //                     ),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //       SizedBox(
-      //         height: MediaQuery.of(context).size.height *
-      //             0.70, // Constrain height.
-      //         child: ListView.builder(
-      //             itemCount: clientList.length,
-      //             itemBuilder: (BuildContext context, int index) {
-      //               return Container(
-      //                 width: MediaQuery.of(context).size.width * 0.90,
-      //                 child: InkWell(),
-      //               );
-      //             }),
-      //       )
-      //     ],
-      //   ),
     );
   }
 }

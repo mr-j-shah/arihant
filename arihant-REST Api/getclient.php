@@ -23,12 +23,12 @@
     	        $sql="SELECT * FROM `client`";
     
                 $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
-    	        if ($result) {    
+    	        if ($result->num_rows > 0) {    
                     while($row=$result->fetch_assoc()){
     			        $info[]=$row;
     		        }
     	        } else {
-    		        $info[] ="Sorry";	
+    		        $info = array();	
     	        }
     	        echo json_encode($info);
     	       ////echo "Authenticat";

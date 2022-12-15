@@ -1,7 +1,4 @@
 // ignore_for_file: camel_case_types
-
-import 'dart:ui';
-
 import 'package:arihant/api/clientapi.dart';
 import 'package:arihant/api/collection.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +17,7 @@ class addcollection extends StatefulWidget {
 
 class _addcollectionState extends State<addcollection> {
   List<client> clientList = [];
+  List<client> clientList2 = [];
   bool isLoading = true;
   String _date = "";
   String _name = "";
@@ -55,7 +53,10 @@ class _addcollectionState extends State<addcollection> {
       clientList = value;
     });
     for (var data in clientList) {
-      idList.add(data.id);
+      if (data.day > 0) {
+        idList.add(data.id);
+        clientList2.add(data);
+      }
     }
     print(idList.length);
     setState(() {
@@ -103,70 +104,73 @@ class _addcollectionState extends State<addcollection> {
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  padding: const EdgeInsets.all(8.0),
-                  child: SearchField(
-                    suggestionAction: SuggestionAction.unfocus,
-                    suggestions: idList
-                        .map(
-                          (e) => SearchFieldListItem<String>(
-                            e,
-                            item: e,
+                clientList2.isEmpty
+                    ? Container()
+                    : Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: SearchField(
+                          suggestionAction: SuggestionAction.unfocus,
+                          suggestions: idList
+                              .map(
+                                (e) => SearchFieldListItem<String>(
+                                  e,
+                                  item: e,
+                                ),
+                              )
+                              .toList(),
+                          searchInputDecoration: InputDecoration(
+                            labelStyle: const TextStyle(color: Colors.black),
+                            labelText: "Client Id",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(36, 59, 85, 1)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
                           ),
-                        )
-                        .toList(),
-                    searchInputDecoration: InputDecoration(
-                      labelStyle: const TextStyle(color: Colors.black),
-                      labelText: "Client Id",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            color: Color.fromRGBO(36, 59, 85, 1)),
+                          // validator: MultiValidator([
+                          //   RequiredValidator(errorText: "Cannot Be Empty"),
+                          // ]),
+                          onSuggestionTap: (val) {
+                            print(val.item);
+                            setState(() {
+                              _id.text = val.item.toString();
+                            });
+                            bool check = idList.contains(val.item);
+                            print(check);
+                            if (check == true) {
+                              print("contains");
+                              int index = idList.indexOf(val.item.toString());
+                              setState(() {
+                                _clientname.text = clientList2[index].name;
+                                _collectionamount.text =
+                                    clientList2[index].collectam.toString();
+                                _fixamount = clientList2[index].collectam;
+                                _remainingamount.text = clientList2[index]
+                                    .remainingamount
+                                    .toString();
+                                _days.text = clientList2[index].day.toString();
+                                _penaltydays.text =
+                                    clientList2[index].penaltyday.toString();
+                                isSelected = true;
+                              });
+                            }
+                          },
+                          maxSuggestionsInViewPort: 6,
+                          itemHeight: 50,
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            color: Color.fromRGBO(36, 59, 85, 1)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                    ),
-                    // validator: MultiValidator([
-                    //   RequiredValidator(errorText: "Cannot Be Empty"),
-                    // ]),
-                    onSuggestionTap: (val) {
-                      print(val.item);
-                      setState(() {
-                        _id.text = val.item.toString();
-                      });
-                      bool check = idList.contains(val.item);
-                      print(check);
-                      if (check == true) {
-                        print("contains");
-                        int index = idList.indexOf(val.item.toString());
-                        setState(() {
-                          _clientname.text = clientList[index].name;
-                          _collectionamount.text =
-                              clientList[index].collectam.toString();
-                          _fixamount = clientList[index].collectam;
-                          _remainingamount.text =
-                              clientList[index].remainingamount.toString();
-                          _days.text = clientList[index].day.toString();
-                          _penaltydays.text =
-                              clientList[index].penaltyday.toString();
-                          isSelected = true;
-                        });
-                      }
-                    },
-                    maxSuggestionsInViewPort: 6,
-                    itemHeight: 50,
-                  ),
-                ),
                 isSelected
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
