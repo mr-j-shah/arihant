@@ -1,4 +1,6 @@
+import 'package:arihant/cahrtModel/chartModel.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class graph extends StatefulWidget {
   const graph({super.key});
@@ -8,10 +10,55 @@ class graph extends StatefulWidget {
 }
 
 class _graphState extends State<graph> {
+  List<DailyCollection> data = [];
+  bool isLoading = true;
+  @override
+  void initState() {
+    getdata();
+    super.initState();
+  }
+
+  getdata() async {
+    await DailyTotalCollection().then((value) {
+      data = value;
+    });
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Graph"),
-    );
+    return isLoading
+        // ignore: prefer_const_constructors
+        ? Center(
+            child: CircularProgressIndicator(
+              color: const Color.fromRGBO(36, 59, 85, 1),
+            ),
+          )
+        : Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: SfCartesianChart(
+                    plotAreaBackgroundColor: Colors.white60,
+                    primaryXAxis: CategoryAxis(
+                        arrangeByIndex:
+                            true // Arranges the series base on the axis index values
+                        ),
+                    series: <ChartSeries<DailyCollection, String>>[
+                      // Renders column chart
+                      ColumnSeries<DailyCollection, String>(
+                          dataSource: data,
+                          xValueMapper: (DailyCollection data, _) => data.date,
+                          yValueMapper: (DailyCollection data, _) => data.Total)
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
   }
 }

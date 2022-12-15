@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 Future<void> verifyotp() async {
   final response = await http.post(
     Uri.parse(
-        'http://bhimshaktivicharmanch.com/arihant/updClientAftNewAcc.php'),
+        'http://bhimshaktivicharmanch.com/arihant/getDailyCollectionTotal.php'),
     headers: {"Content-Type": "application/json"},
     body: jsonEncode(
       <String, dynamic>{
@@ -14,7 +14,7 @@ Future<void> verifyotp() async {
         // 'remAmount': '12000',
         // 'days': '100',
         // 'collection': '120',
-        'id': '2022-12-15:2-22:JI',
+        // 'id': '2022-12-15:2-22:JI',
         // 'name': 'Jinay',
         // 'doj': '2022-12-15',
         // 'address': 'Sachin',
@@ -24,14 +24,14 @@ Future<void> verifyotp() async {
         // 'penalty': '0',
         // 'remainingamount': '12000',
         // 'updatedat': '2022-12-15',
-        'amount': '40000',
-        'rmamount': '50000',
-        'updatedate': '2022-12-16',
-        'noofacc': '2',
+        // 'amount': '40000',
+        // 'rmamount': '50000',
+        // 'updatedate': '2022-12-16',
+        // 'noofacc': '2',
         // 'collectionid': '9973818',
         // 'id': '2022-12-14:1-48:BHAV',
         // 'date': '2022-12-15',
-        // 'email': 'daxay2310@gmail.com',
+        'email': 'daxay2310@gmail.com',
         // 'collectionamount': '200'
       },
     ),
