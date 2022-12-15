@@ -1,40 +1,73 @@
-// ignore_for_file: camel_case_types
-
 import 'package:arihant/api/clientapi.dart';
-import 'package:arihant/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:searchfield/searchfield.dart';
 
-class addclient extends StatefulWidget {
-  const addclient({super.key});
+import '../api/collection.dart';
+import 'home.dart';
+
+class addaccount extends StatefulWidget {
+  const addaccount({super.key});
 
   @override
-  State<addclient> createState() => _addclientState();
+  State<addaccount> createState() => _addaccountState();
 }
 
-class _addclientState extends State<addclient> {
-  final TextEditingController _name = new TextEditingController();
-  final TextEditingController _address = new TextEditingController();
-  final TextEditingController _mobile = new TextEditingController();
+class _addaccountState extends State<addaccount> {
+  List<client> clientList = [];
+  bool isLoading = true;
+  String _date = "";
+  String _name = "";
+  String _email = "";
+  List<String> idList = [];
+  bool isSelected = false;
+  bool isComplete = true;
+  bool isAmountAdded = false;
+  late int noofacc = 0,
+      amountTillNow = 0,
+      remAmountTillNow = 0,
+      amountWithAcc = 0,
+      remAmountWithAcc = 0;
+  final TextEditingController _id = TextEditingController();
   final TextEditingController _amount = new TextEditingController();
   final TextEditingController _totalamount = new TextEditingController();
   final TextEditingController _day = new TextEditingController();
   final TextEditingController _colleamount = new TextEditingController();
-  bool isLoading = true;
-  bool isAmountAdded = false;
-  bool isComplete = false;
-  String _date = "";
   @override
   void initState() {
     getdata();
     super.initState();
   }
 
+  getdata() async {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(now);
+    dynamic email = await SessionManager().get("email");
+    dynamic name = await SessionManager().get("name");
+    setState(() {
+      _date = formatted;
+      _name = name.toString();
+      _email = email.toString();
+    });
+    await getclinet(_email).then((value) {
+      clientList = value;
+    });
+    for (var data in clientList) {
+      idList.add(data.id);
+    }
+    print(idList.length);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Client"),
+        title: const Text("Add Account"),
         backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
       ),
       body: isLoading
@@ -48,7 +81,6 @@ class _addclientState extends State<addclient> {
           : Padding(
               padding: const EdgeInsets.all(8.0),
               child: Form(
-                autovalidateMode: AutovalidateMode.always,
                 child: ListView(children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -60,7 +92,8 @@ class _addclientState extends State<addclient> {
                         labelText: "Date",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
+                          borderSide: const BorderSide(
+                              color: Color.fromRGBO(36, 59, 85, 1)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -68,158 +101,155 @@ class _addclientState extends State<addclient> {
                           borderSide: BorderSide(
                               color: const Color.fromRGBO(36, 59, 85, 1)),
                         ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _name,
-                      validator: ((value) {
-                        if (value == null || value.isEmpty) {
-                          isComplete = false;
-                          return 'Enter a Name';
-                        } else {
-                          isComplete = true;
-                          return null;
-                        }
-                      }),
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Name",
-                        labelStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
+                        errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
+                          borderSide: const BorderSide(color: Colors.red),
                         ),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _address,
-                      validator: ((value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.length < 20) {
-                          isComplete = false;
-                          return 'Enter a Proper Address';
-                        } else {
-                          isComplete = true;
-                          return null;
-                        }
-                      }),
-                      maxLines: 6,
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: _date,
-                      decoration: InputDecoration(
-                        labelText: "Address",
-                        labelStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
+                  clientList.isEmpty
+                      ? Container()
+                      : Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: SearchField(
+                            suggestionAction: SuggestionAction.unfocus,
+                            suggestions: idList
+                                .map(
+                                  (e) => SearchFieldListItem<String>(
+                                    e,
+                                    item: e,
+                                  ),
+                                )
+                                .toList(),
+                            searchInputDecoration: InputDecoration(
+                              labelStyle: const TextStyle(color: Colors.black),
+                              labelText: "Client Id:",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            // validator: MultiValidator([
+                            //   RequiredValidator(errorText: "Cannot Be Empty"),
+                            // ]),
+                            onSuggestionTap: (val) {
+                              print(val.item);
+                              setState(() {
+                                _id.text = val.item.toString();
+                              });
+                              bool check = idList.contains(val.item);
+                              print(check);
+                              if (check == true) {
+                                print("contains");
+                                int index = idList.indexOf(val.item.toString());
+                                setState(() {
+                                  noofacc = clientList[index].noOfAcc;
+                                  amountTillNow = clientList[index].amount;
+                                  remAmountTillNow =
+                                      clientList[index].remainingamount;
+                                  isSelected = true;
+                                });
+                              }
+                            },
+                            maxSuggestionsInViewPort: 6,
+                            itemHeight: 50,
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _mobile,
-                      validator: ((value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.length < 10) {
-                          isComplete = false;
-                          return 'Enter a Mobile Number';
-                        } else {
-                          isComplete = true;
-                          return null;
-                        }
-                      }),
-                      keyboardType: TextInputType.number,
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Mobile Number",
-                        labelStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      onChanged: ((value) {
-                        // ignore: unnecessary_null_comparison
-                        if (value == null || value == "" || value.isEmpty) {
-                          _amount.text = "0";
-                        } else {
-                          _amount.text = value;
-                          calculate();
-                        }
-                        print(_amount.text);
-                        setState(() {
-                          isAmountAdded = true;
-                        });
-                      }),
-                      validator: ((value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            int.parse(value) < 5000) {
-                          isComplete = false;
-                          return 'Enter a Amount';
-                        } else {
-                          isComplete = true;
-                          return null;
-                        }
-                      }),
-                      keyboardType: TextInputType.number,
-                      // enabled: false,
-                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
-                      // initialValue: ,
-                      decoration: InputDecoration(
-                        labelText: "Amount",
-                        labelStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: const BorderSide(color: Colors.green),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // ignore: prefer_const_constructors
-                          borderSide: BorderSide(
-                              color: const Color.fromRGBO(36, 59, 85, 1)),
-                        ),
-                      ),
-                    ),
-                  ),
+                  isSelected
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            // controller: _clientid,
+                            enabled: false,
+                            cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                            initialValue: remAmountTillNow.toString(),
+                            decoration: InputDecoration(
+                              labelText: "Remaining Amount",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                // ignore: prefer_const_constructors
+                                borderSide: BorderSide(
+                                    color: const Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  isSelected
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            onChanged: ((value) {
+                              // ignore: unnecessary_null_comparison
+                              if (value == null ||
+                                  value == "" ||
+                                  value.isEmpty) {
+                                _amount.text = "0";
+                              } else {
+                                _amount.text = value;
+                                calculate();
+                              }
+                              print(_amount.text);
+                              setState(() {
+                                isAmountAdded = true;
+                              });
+                            }),
+                            validator: ((value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  int.parse(value) < 5000) {
+                                isComplete = false;
+                                return 'Enter a Amount';
+                              } else {
+                                isComplete = true;
+                                return null;
+                              }
+                            }),
+                            keyboardType: TextInputType.number,
+                            // enabled: false,
+                            cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                            // initialValue: ,
+                            decoration: InputDecoration(
+                              labelText: "Amount for New Account",
+                              labelStyle: const TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.green),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                // ignore: prefer_const_constructors
+                                borderSide: BorderSide(
+                                    color: const Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                   isAmountAdded
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -239,7 +269,7 @@ class _addclientState extends State<addclient> {
                             cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                             // initialValue: ,
                             decoration: InputDecoration(
-                              labelText: "Total Amount",
+                              labelText: "Total Amount for New Account",
                               labelStyle: const TextStyle(color: Colors.black),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -279,7 +309,7 @@ class _addclientState extends State<addclient> {
                             cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                             // initialValue: ,
                             decoration: InputDecoration(
-                              labelText: "Days",
+                              labelText: "Days for New Account",
                               labelStyle: const TextStyle(color: Colors.black),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -305,7 +335,7 @@ class _addclientState extends State<addclient> {
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
                                 isComplete = false;
-                                return 'Enter a Collection Amount';
+                                return 'Enter a Collection Amount for New Account';
                               } else {
                                 isComplete = true;
                                 return null;
@@ -316,7 +346,7 @@ class _addclientState extends State<addclient> {
                             cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                             // initialValue: ,
                             decoration: InputDecoration(
-                              labelText: "Collection Amount",
+                              labelText: "Collection Amount for New Account",
                               labelStyle: const TextStyle(color: Colors.black),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -338,51 +368,42 @@ class _addclientState extends State<addclient> {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: (() async {
-                              if (_name.text.isEmpty ||
-                                  _address.text.isEmpty ||
-                                  _mobile.text.isEmpty ||
-                                  _amount.text.isEmpty) {
+                              if (_amount.text.isEmpty ||
+                                  _day.text.isEmpty ||
+                                  _colleamount.text.isEmpty) {
                                 isComplete = false;
                               }
                               if (isComplete) {
-                                final DateTime now = DateTime.now();
-                                final DateFormat formatter =
-                                    DateFormat('yyyy-MM-dd:h-mm');
-                                final String formatted = formatter.format(now);
-                                String name = _name.text;
-                                String id =
-                                    "$formatted:${name[0].toUpperCase()}${name[1].toUpperCase()}";
-                                client cli = client(
-                                  noOfAcc: 1,
-                                  name: _name.text,
-                                  id: id,
-                                  mobileno: _mobile.text,
-                                  address: _address.text,
-                                  doj: _date.toString(),
-                                  amount: int.parse(_amount.text),
-                                  penaltyday: 0,
-                                  remainingamount:
-                                      double.parse(_totalamount.text).toInt(),
-                                  updatedate: _date.toString(),
-                                );
                                 Account acc = Account(
-                                    id: id,
-                                    accountno: id + "1",
+                                    id: _id.text,
+                                    accountno:
+                                        _id.text + (noofacc + 1).toString(),
                                     amount: int.parse(_amount.text),
                                     collection:
                                         double.parse(_colleamount.text).toInt(),
                                     days: int.parse(_day.text),
                                     remAmount: double.parse(_totalamount.text)
                                         .toInt());
-                                bool dataAdded = await cli.addClient();
+
                                 bool accCreate = await acc.adddAcc();
-                                if (dataAdded && accCreate) {
+                                print(int.parse(_amount.text) + amountTillNow);
+                                print(double.parse(_totalamount.text).toInt() +
+                                    remAmountTillNow);
+                                print(noofacc + 1);
+                                bool updateclient = await updateClientApi(
+                                    _id.text,
+                                    int.parse(_amount.text) + amountTillNow,
+                                    double.parse(_totalamount.text).toInt() +
+                                        remAmountTillNow,
+                                    _date,
+                                    noofacc + 1);
+                                if (accCreate) {
                                   await showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: const Text("Add Client Form"),
                                       content: Text(
-                                          'Clinet Created Successfully! ID No:${cli.id}' +
+                                          'Clinet Created Successfully! ID No:${_id.text}' +
                                               'And Account No:${acc.accountno}'),
                                       actions: [
                                         TextButton(
@@ -453,16 +474,6 @@ class _addclientState extends State<addclient> {
     );
   }
 
-  getdata() {
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String formatted = formatter.format(now);
-    setState(() {
-      isLoading = false;
-      _date = formatted;
-    });
-  }
-
   calculate() {
     int amunt = int.parse(_amount.text);
     double totalamount = amunt * 1.2;
@@ -473,13 +484,4 @@ class _addclientState extends State<addclient> {
       _colleamount.text = collectamount.toString();
     });
   }
-
-  // changeday(String s) {
-  //   int days = int.parse(s);
-  //   double totalamount = double.parse(_totalamount.text);
-  //   double collectamount = totalamount / 100;
-  //   setState(() {
-  //     _colleamount.text = collectamount.toString();
-  //   });
-  // }
 }

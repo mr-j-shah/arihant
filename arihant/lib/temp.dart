@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 
 Future<void> verifyotp() async {
   final response = await http.post(
-    Uri.parse('http://bhimshaktivicharmanch.com/arihant/addcollection.php'),
+    Uri.parse(
+        'http://bhimshaktivicharmanch.com/arihant/updClientAftNewAcc.php'),
     headers: {"Content-Type": "application/json"},
     body: jsonEncode(
       <String, dynamic>{
-        'accountno': '2022-12-15:2-22:JI1',
+        // 'accountno': '2022-12-15:2-22:JI1',
         // 'amount': '10000',
         // 'remAmount': '12000',
         // 'days': '100',
@@ -22,12 +23,16 @@ Future<void> verifyotp() async {
         // 'noofacc': '1',
         // 'penalty': '0',
         // 'remainingamount': '12000',
-        // 'updatedat': '2022-12-15'
-        'collectionid': '9973818',
+        // 'updatedat': '2022-12-15',
+        'amount': '40000',
+        'rmamount': '50000',
+        'updatedate': '2022-12-16',
+        'noofacc': '2',
+        // 'collectionid': '9973818',
         // 'id': '2022-12-14:1-48:BHAV',
-        'date': '2022-12-15',
-        'email': 'daxay2310@gmail.com',
-        'collectionamount': '200'
+        // 'date': '2022-12-15',
+        // 'email': 'daxay2310@gmail.com',
+        // 'collectionamount': '200'
       },
     ),
   );

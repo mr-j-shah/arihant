@@ -1,3 +1,4 @@
+import 'package:arihant/screens/addaccount.dart';
 import 'package:arihant/screens/addclient.dart';
 import 'package:arihant/screens/addcollection.dart';
 import 'package:arihant/screens/graph.dart';
@@ -87,12 +88,19 @@ class _homepageState extends State<homepage> {
                 ),
                 const Divider(),
                 ListTile(
-                  leading: const Icon(Icons.update),
+                  leading: const Icon(Icons.add),
                   title: const Text(
                     'Add Account',
                     style: TextStyle(fontSize: 18),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const addaccount(),
+                      ),
+                    );
+                  },
                 ),
                 const Divider(),
                 ListTile(

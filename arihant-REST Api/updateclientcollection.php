@@ -12,12 +12,13 @@
     $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
     
     $sql1 = "SELECT  `remainingamount` FROM `client` WHERE id = '$id'";
+    
     $updateresult = $conn->query($sql1) or die("Error in Selecting " . mysqli_error($conn));
     while($value=$updateresult->fetch_assoc()){
-        $data[]=$value;
+        $data1[]=$value;
     }
-    $rmamount = $data[0]["remainingamount"];
-    $days-=1;
+    
+    $rmamount = $data1[0]["remainingamount"];
     $rmamount-=$collectionamount;
     $sql="UPDATE `client` SET `remainingamount`='$rmamount' WHERE id = '$id'";
     $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
