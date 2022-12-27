@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:arihant/api/clientapi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
@@ -55,7 +57,8 @@ class _addaccountState extends State<addaccount> {
       clientList = value;
     });
     for (var data in clientList) {
-      idList.add(data.id);
+      String value = data.id + " " + data.name;
+      idList.add(value);
     }
     print(idList.length);
     setState(() {
@@ -148,9 +151,6 @@ class _addaccountState extends State<addaccount> {
                             // ]),
                             onSuggestionTap: (val) {
                               print(val.item);
-                              setState(() {
-                                _id.text = val.item.toString();
-                              });
                               bool check = idList.contains(val.item);
                               print(check);
                               if (check == true) {
@@ -162,7 +162,9 @@ class _addaccountState extends State<addaccount> {
                                   remAmountTillNow =
                                       clientList[index].remainingamount;
                                   isSelected = true;
+                                  _id.text = clientList[index].id;
                                 });
+                                print(_id.text);
                               }
                             },
                             maxSuggestionsInViewPort: 6,

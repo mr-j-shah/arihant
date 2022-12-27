@@ -313,7 +313,7 @@ class _addcollectionState extends State<addcollection> {
                           cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           // initialValue: _date,
                           decoration: InputDecoration(
-                            labelText: "Total Amount",
+                            labelText: "Tacken Amount",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: const BorderSide(

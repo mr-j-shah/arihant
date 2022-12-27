@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     checksession().then((value) {
       _islogin = value;
     });
-    Timer(const Duration(seconds: 5), (() {
+    Timer(const Duration(seconds: 3), (() {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
