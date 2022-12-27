@@ -49,7 +49,7 @@ class client {
 }
 
 class Account {
-  String id, accountno;
+  String id, accountno, name;
   int amount, remAmount, days, collection;
   Account(
       {required this.id,
@@ -57,7 +57,8 @@ class Account {
       required this.amount,
       required this.collection,
       required this.days,
-      required this.remAmount});
+      required this.remAmount,
+      required this.name});
 
   Future<bool> adddAcc() async {
     final res = await http.post(
@@ -132,6 +133,7 @@ Future<List<client>> getclinet(String email) async {
 
 ConverterAcc(Map<String, dynamic> c) {
   return Account(
+    name: c["name"],
     id: c["id"],
     accountno: c["accountno"],
     remAmount: int.parse(c["remAmount"]),

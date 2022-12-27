@@ -22,6 +22,7 @@ class _addaccountState extends State<addaccount> {
   String _date = "";
   String _name = "";
   String _email = "";
+  String _clientName = "";
   List<String> idList = [];
   bool isSelected = false;
   bool isComplete = true;
@@ -157,6 +158,7 @@ class _addaccountState extends State<addaccount> {
                                 print("contains");
                                 int index = idList.indexOf(val.item.toString());
                                 setState(() {
+                                  _clientName = clientList[index].name;
                                   noofacc = clientList[index].noOfAcc;
                                   amountTillNow = clientList[index].amount;
                                   remAmountTillNow =
@@ -377,6 +379,7 @@ class _addaccountState extends State<addaccount> {
                               }
                               if (isComplete) {
                                 Account acc = Account(
+                                    name: _clientName,
                                     id: _id.text,
                                     accountno:
                                         _id.text + (noofacc + 1).toString(),

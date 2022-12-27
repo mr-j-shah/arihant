@@ -18,6 +18,7 @@ class addcollection extends StatefulWidget {
 class _addcollectionState extends State<addcollection> {
   List<Account> accList = [];
   List<Account> accList2 = [];
+  List<String> suggestionList = [];
   bool isLoading = true;
   String _date = "";
   String _name = "";
@@ -54,6 +55,8 @@ class _addcollectionState extends State<addcollection> {
     });
     for (var data in accList) {
       if (data.days > 0) {
+        String value = data.accountno + " " + data.name;
+        suggestionList.add(value);
         idList.add(data.accountno);
         accList2.add(data);
       }
@@ -114,7 +117,7 @@ class _addcollectionState extends State<addcollection> {
                         padding: const EdgeInsets.all(8.0),
                         child: SearchField(
                           suggestionAction: SuggestionAction.unfocus,
-                          suggestions: idList
+                          suggestions: suggestionList
                               .map(
                                 (e) => SearchFieldListItem<String>(
                                   e,
@@ -154,6 +157,7 @@ class _addcollectionState extends State<addcollection> {
                               print("contains");
                               int index = idList.indexOf(val.item.toString());
                               setState(() {
+                                _id.text = accList2[index].accountno;
                                 _clientid.text = accList2[index].id;
                                 _collectionamount.text =
                                     accList2[index].collection.toString();

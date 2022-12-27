@@ -366,6 +366,7 @@ class _addclientState extends State<addclient> {
                                   updatedate: _date.toString(),
                                 );
                                 Account acc = Account(
+                                    name: name,
                                     id: id,
                                     accountno: id + "1",
                                     amount: int.parse(_amount.text),

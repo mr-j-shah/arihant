@@ -36,8 +36,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var connectivityResult = new Connectivity().checkConnectivity();
+  Connectivity connectivity = Connectivity();
   bool _islogin = false;
+  bool _isconnected = false;
   @override
   void initState() {
     checksession().then((value) {
@@ -47,13 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              (connectivityResult == ConnectivityResult.mobile ||
-                      connectivityResult == ConnectivityResult.wifi)
-                  ? _islogin
-                      ? const homepage()
-                      : const login()
-                  : const nointernet(),
+          builder: (context) => _isconnected
+              ? _islogin
+                  ? const homepage()
+                  : const login()
+              : const nointernet(),
         ),
       );
     }));
@@ -66,6 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<bool> checksession() async {
+    var connectivityResult = await connectivity.checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      _isconnected = true;
+    }
     dynamic id = await SessionManager().get("email");
     if (id != null) {
       return true;
