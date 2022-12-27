@@ -1,9 +1,13 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:async';
 import 'package:arihant/screens/home.dart';
 import 'package:arihant/screens/login.dart';
+import 'package:arihant/screens/nointernet.dart';
 import 'package:arihant/screens/spleshscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var connectivityResult = new Connectivity().checkConnectivity();
   bool _islogin = false;
   @override
   void initState() {
@@ -42,7 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => _islogin ? const homepage() : const login(),
+          builder: (context) =>
+              (connectivityResult == ConnectivityResult.mobile ||
+                      connectivityResult == ConnectivityResult.wifi)
+                  ? _islogin
+                      ? const homepage()
+                      : const login()
+                  : const nointernet(),
         ),
       );
     }));
