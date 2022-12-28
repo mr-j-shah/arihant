@@ -55,7 +55,7 @@ class _addcollectionState extends State<addcollection> {
     });
     for (var data in accList) {
       if (data.days > 0) {
-        String value = data.accountno + " " + data.name;
+        String value = data.name + " [" + data.accountno + "]";
         suggestionList.add(value);
         idList.add(data.accountno);
         accList2.add(data);
@@ -151,13 +151,14 @@ class _addcollectionState extends State<addcollection> {
                             setState(() {
                               _id.text = val.item.toString();
                             });
-                            bool check = idList.contains(val.item);
+                            bool check = suggestionList.contains(val.item);
                             print(check);
                             if (check == true) {
                               print("contains");
-                              int index = idList.indexOf(val.item.toString());
+                              int index =
+                                  suggestionList.indexOf(val.item.toString());
                               setState(() {
-                                _id.text = accList2[index].accountno;
+                                _id.text = accList2[index].accountno.toString();
                                 _clientid.text = accList2[index].id;
                                 _collectionamount.text =
                                     accList2[index].collection.toString();
