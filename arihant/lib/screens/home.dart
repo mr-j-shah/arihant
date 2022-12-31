@@ -1,6 +1,7 @@
 import 'package:arihant/screens/addaccount.dart';
 import 'package:arihant/screens/addclient.dart';
 import 'package:arihant/screens/addcollection.dart';
+import 'package:arihant/screens/getclientdata.dart';
 import 'package:arihant/screens/graph.dart';
 import 'package:arihant/screens/login.dart';
 import 'package:arihant/screens/user.dart';
@@ -88,7 +89,7 @@ class _homepageState extends State<homepage> {
                 ),
                 const Divider(),
                 ListTile(
-                  leading: const Icon(Icons.add),
+                  leading: const Icon(Icons.new_label),
                   title: const Text(
                     'Add Account',
                     style: TextStyle(fontSize: 18),
@@ -118,7 +119,22 @@ class _homepageState extends State<homepage> {
                     );
                   },
                 ),
-
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.data_object),
+                  title: const Text(
+                    'Get Client Details',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const getClientData(),
+                      ),
+                    );
+                  },
+                ),
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.logout),

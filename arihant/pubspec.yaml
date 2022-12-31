@@ -42,6 +42,7 @@ dependencies:
   searchfield: ^0.7.2
   syncfusion_flutter_charts: ^20.3.61
   connectivity_plus: ^3.0.2
+  url_launcher: ^6.1.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

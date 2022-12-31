@@ -33,10 +33,10 @@ class _addaccountState extends State<addaccount> {
       amountWithAcc = 0,
       remAmountWithAcc = 0;
   final TextEditingController _id = TextEditingController();
-  final TextEditingController _amount = new TextEditingController();
-  final TextEditingController _totalamount = new TextEditingController();
-  final TextEditingController _day = new TextEditingController();
-  final TextEditingController _colleamount = new TextEditingController();
+  final TextEditingController _amount = TextEditingController();
+  final TextEditingController _totalamount = TextEditingController();
+  final TextEditingController _day = TextEditingController();
+  final TextEditingController _colleamount = TextEditingController();
   @override
   void initState() {
     getdata();
@@ -58,7 +58,7 @@ class _addaccountState extends State<addaccount> {
       clientList = value;
     });
     for (var data in clientList) {
-      String value = data.id + " " + data.name;
+      String value = "${data.name} [${data.id}]";
       idList.add(value);
     }
     print(idList.length);
@@ -379,6 +379,7 @@ class _addaccountState extends State<addaccount> {
                               }
                               if (isComplete) {
                                 Account acc = Account(
+                                    doc: _date,
                                     name: _clientName,
                                     id: _id.text,
                                     accountno:

@@ -366,6 +366,7 @@ class _addclientState extends State<addclient> {
                                   updatedate: _date.toString(),
                                 );
                                 Account acc = Account(
+                                    doc: _date.toString(),
                                     name: name,
                                     id: id,
                                     accountno: id + "1",

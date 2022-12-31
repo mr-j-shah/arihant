@@ -256,7 +256,7 @@ class _addcollectionState extends State<addcollection> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: _remainingamount,
-                          enabled: false,
+                          // enabled: false,
                           cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           // initialValue: _date,
                           decoration: InputDecoration(
