@@ -23,7 +23,11 @@ class _homepageState extends State<homepage> {
   String _name = "";
   String _email = "";
   int _screencount = 1;
-  List<Widget> screens = [const graph(), const addcollection(), const user()];
+  List<Widget> screens = [
+    const collectiondata(),
+    const addcollection(),
+    const user()
+  ];
   @override
   void initState() {
     getdata();
@@ -103,22 +107,22 @@ class _homepageState extends State<homepage> {
                     );
                   },
                 ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.info),
-                  title: const Text(
-                    'Today Collection',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const collectiondata(),
-                      ),
-                    );
-                  },
-                ),
+                // const Divider(),
+                // ListTile(
+                //   leading: const Icon(Icons.info),
+                //   title: const Text(
+                //     'Today Collection',
+                //     style: TextStyle(fontSize: 18),
+                //   ),
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const collectiondata(),
+                //       ),
+                //     );
+                //   },
+                // ),
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.data_object),

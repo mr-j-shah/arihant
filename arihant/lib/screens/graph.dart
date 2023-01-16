@@ -32,6 +32,7 @@ class _graphState extends State<graph> {
     return isLoading
         // ignore: prefer_const_constructors
         ? Center(
+            // ignore: prefer_const_constructors
             child: CircularProgressIndicator(
               color: const Color.fromRGBO(36, 59, 85, 1),
             ),
@@ -42,15 +43,17 @@ class _graphState extends State<graph> {
                   ? Container()
                   : Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
+                      child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: SfCartesianChart(
+                          borderColor: Colors.black,
                           plotAreaBackgroundColor: Colors.white60,
                           primaryXAxis: CategoryAxis(
                               arrangeByIndex:
                                   true // Arranges the series base on the axis index values
                               ),
                           series: <ChartSeries<DailyCollection, String>>[
+                            // PieSeries(),
                             // Renders column chart
                             ColumnSeries<DailyCollection, String>(
                                 dataSource: data,

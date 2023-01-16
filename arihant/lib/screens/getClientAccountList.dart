@@ -54,9 +54,12 @@ class _getClientAccountListState extends State<getClientAccountList> {
                 shrinkWrap: true,
                 itemCount: accountList.length,
                 itemBuilder: (context, index) {
-                  return accountListDesign(
-                    index: index,
-                    accountList: accountList,
+                  return InkWell(
+                    onTap: (() {}),
+                    child: accountListDesign(
+                      index: index,
+                      accountList: accountList,
+                    ),
                   );
                 },
               ),

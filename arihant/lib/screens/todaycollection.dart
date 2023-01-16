@@ -52,10 +52,10 @@ class _collectiondataState extends State<collectiondata> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Today Collection"),
-        backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Today Collection"),
+      //   backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
+      // ),
       body: isLoading
           // ignore: prefer_const_constructors
           ? Center(
