@@ -28,11 +28,13 @@ There are three part of Portion of Software.
 
 - This Mobile Application for the Owner who get the Update of the Businesses from any where at any time.
 - Feature of Application
+
     1. Add New Collector and Update Collector Details and Collector access
     2. Data of Businesses
-        a. Total Collection
-        b. Total Number of New Client
-        c. Today total collection amount 
+        - Total Collection
+        - Total Number of New Client
+        - Today total collection amount 
+
     3. Client Data with edit access and List of collection dates
     4. Create New Client / Add Account
     
