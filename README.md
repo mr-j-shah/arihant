@@ -23,6 +23,19 @@ There are three part of Portion of Software.
     3. Create new Account for Existing Client
     4. Get List of Client who gave collection on present Day with sum of collection amount
     5. Details of Client with All existing Account(No update access)
+    
+[2] Admin Mobile Application
+
+- This Mobile Application for the Owner who get the Update of the Businesses from any where at any time.
+- Feature of Application
+    1. Add New Collector and Update Collector Details and Collector access
+    2. Data of Businesses
+        a. Total Collection
+        b. Total Number of New Client
+        c. Today total collection amount 
+    3. Client Data with edit access and List of collection dates
+    4. Create New Client / Add Account
+    
 
 
 ## Feedback
