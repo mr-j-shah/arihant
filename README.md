@@ -42,38 +42,3 @@ There are three part of Portion of Software.
 
 If you have any feedback, please reach out to us at shahjinay02@gmail.com
 
-## Screenshots
-<div class="row">
-  <div class="column">
-    <img src="https://user-images.githubusercontent.com/79891868/215313688-6deae995-1836-4087-891e-cdf161874375.png" alt="Snow" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://user-images.githubusercontent.com/79891868/215313700-88d094b2-73b6-4bfa-9c3e-f108d6a58dd5.png" alt="Forest" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://user-images.githubusercontent.com/79891868/215313704-766f37c2-588e-476e-97c9-298618130684.png" alt="Mountains" style="width:100%">
-  </div>
-</div>
-<script>
-/* Three image containers (use 25% for four, and 50% for two, etc) */
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 5px;
-}
-
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-</script>
-![Screenshot_1674979553](https://user-images.githubusercontent.com/79891868/215313707-7d8e2425-3f77-42cd-a231-4461a0dbd1ea.png)
-![Screenshot_1674979563](https://user-images.githubusercontent.com/79891868/215313710-c2836c70-a61a-4fbb-9e30-441be28c74f1.png)
-![Screenshot_1674979568](https://user-images.githubusercontent.com/79891868/215313715-59b013ce-fab5-4951-9308-bcf42d89b9f1.png)
-![Screenshot_1674979577](https://user-images.githubusercontent.com/79891868/215313720-09382779-8db2-4433-b7dd-4424879a26cf.png)
-![Screenshot_1674979599](https://user-images.githubusercontent.com/79891868/215313726-971605ec-4c5f-498a-87c6-f2b1f978b8aa.png)
-![Screenshot_1674979610](https://user-images.githubusercontent.com/79891868/215313730-9792b74b-29d1-413a-a92b-7b0c6fc5bea3.png)
-
-
