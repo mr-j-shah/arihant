@@ -1,3 +1,4 @@
+import 'package:arihant/api/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
@@ -21,11 +22,11 @@ class _userState extends State<user> {
   }
 
   Future<void> getdata() async {
-    dynamic email = await SessionManager().get("email");
-    dynamic name = await SessionManager().get("name");
+    // collector c = await SessionManager().get("data");
+    collector c = collector.fromJson(await await SessionManager().get("data"));
     setState(() {
-      _name = name.toString();
-      _email = email.toString();
+      _name = c.name.toString();
+      _email = c.email.toString();
       isLoading = false;
     });
   }

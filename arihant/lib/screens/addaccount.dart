@@ -6,6 +6,7 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:searchfield/searchfield.dart';
 
+import '../api/authentication.dart';
 import '../api/collection.dart';
 import 'home.dart';
 
@@ -47,12 +48,12 @@ class _addaccountState extends State<addaccount> {
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formatted = formatter.format(now);
-    dynamic email = await SessionManager().get("email");
-    dynamic name = await SessionManager().get("name");
+    collector c = collector.fromJson(await await SessionManager().get("data"));
+
     setState(() {
       _date = formatted;
-      _name = name.toString();
-      _email = email.toString();
+      _name = c.name.toString();
+      _email = c.email.toString();
     });
     await getclinet(_email).then((value) {
       clientList = value;

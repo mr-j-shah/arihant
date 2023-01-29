@@ -4,17 +4,17 @@ import 'package:http/http.dart' as http;
 
 Future<void> verifyotp() async {
   final response = await http.post(
-    Uri.parse('http://localhost:5000/jinay'),
+    Uri.parse('http://bhimshaktivicharmanch.com/arihant/login.php'),
     // headers: {"Content-Type": "application/json"},
     body: jsonEncode(
       <String, dynamic>{
+        'username': 'daxay2310@gmail.com',
+        'password': 'daxay',
         // 'username': '', 'password': password
         // 'firstname': 'Jinay',
         // 'lastname': 'Shah',
         // 'mobile': '9978530638',
-        'name': 'Jinay Shah',
-        // 'wardnum': '12A',
-        'password': 'jinayshah',
+
         // 'name': 'Jinay',
         // 'doj': '2022-12-15',
         // 'address': 'Sachin',

@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+import 'api/authentication.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Arihant',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -70,7 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
         connectivityResult == ConnectivityResult.wifi) {
       _isconnected = true;
     }
-    dynamic id = await SessionManager().get("email");
+    collector c = collector.fromJson(await await SessionManager().get("data"));
+    dynamic id = c.email;
     if (id != null) {
       return true;
     }

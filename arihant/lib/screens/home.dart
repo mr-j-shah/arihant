@@ -8,6 +8,7 @@ import 'package:arihant/screens/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
+import '../api/authentication.dart';
 import 'todaycollection.dart';
 
 // ignore: camel_case_types
@@ -240,11 +241,10 @@ class _homepageState extends State<homepage> {
   }
 
   Future<void> getdata() async {
-    dynamic email = await SessionManager().get("email");
-    dynamic name = await SessionManager().get("name");
+    collector c = collector.fromJson(await await SessionManager().get("data"));
     setState(() {
-      _name = name.toString();
-      _email = email.toString();
+      _name = c.name.toString();
+      _email = c.email.toString();
       isLoading = false;
     });
   }

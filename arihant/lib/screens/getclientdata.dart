@@ -8,6 +8,8 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../api/authentication.dart';
+
 class getClientData extends StatefulWidget {
   const getClientData({super.key});
 
@@ -34,9 +36,10 @@ class _getClientDataState extends State<getClientData> {
   }
 
   getdata() async {
-    dynamic email = await SessionManager().get("email");
+    collector c = collector.fromJson(await await SessionManager().get("data"));
+
     setState(() {
-      _email = email.toString();
+      _email = c.email.toString();
     });
     await getclinet(_email).then((value) {
       clientList = value;
