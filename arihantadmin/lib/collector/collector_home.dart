@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, prefer_const_literals_to_create_immutables
 
 import 'package:arihantadmin/collector/collector_api.dart';
 import 'package:arihantadmin/collector/edit_collector.dart';
@@ -13,6 +13,13 @@ class collector_home extends StatefulWidget {
 
 class _collector_homeState extends State<collector_home> {
   List<collector> list = [
+    collector(
+        address: "Sachin",
+        email: "shahjinay02@gmail.com",
+        image: "",
+        mobile: "+919978530638",
+        dailyCollAmount: "1000",
+        name: "Jinay Shah"),
     collector(
         address: "Sachin",
         email: "shahjinay02@gmail.com",
@@ -58,10 +65,87 @@ class _collector_homeState extends State<collector_home> {
             ),
           ),
           Expanded(
-              child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
+            child: ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                  child: Dismissible(
+                    confirmDismiss: (direction) async {
+                      if (direction == DismissDirection.endToStart) {
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                edit_collector(c: list[index]),
+                          ),
+                        );
+                      }
+                    },
+                    background: Container(
+                      color: Colors.green,
+                      child: Align(
+                        // ignore: sort_child_properties_last
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <Widget>[
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                            const Text(
+                              " Edit",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.centerLeft,
+                      ),
+                    ),
+                    secondaryBackground: Container(
+                      color: Colors.red,
+                      child: Align(
+                        // ignore: sort_child_properties_last
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                            const Text(
+                              " Delete",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.centerRight,
+                      ),
+                    ),
+                    key: Key(list[index].name),
+                    child: ListTile(
+                      leading: const CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage(
+                          "assets/images/Nointernet.png",
+                        ),
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -77,33 +161,34 @@ class _collector_homeState extends State<collector_home> {
                         style: const TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 18),
                       ),
-                    );
-                  })
-              //     ListView(
-              //   children: [
-              //     ListTile(
-              //       onTap: () {},
-              //       // ignore: prefer_const_constructors
-              //       title: Text(
-              //         "Jinay Shah",
-              //         style: const TextStyle(
-              //             fontWeight: FontWeight.w500, fontSize: 18),
-              //       ),
-              //     ),
-              //     // ignore: prefer_const_constructors
-
-              //     ListTile(
-              //       onTap: () {},
-              //       // ignore: prefer_const_constructors
-              //       title: Text(
-              //         "Daxay Shah",
-              //         style: const TextStyle(
-              //             fontWeight: FontWeight.w500, fontSize: 18),
-              //       ),
-              //     ),
-              //   ],
-              // )
-              ),
+                    ),
+                  ),
+                  // child: ListTile(
+                  //   leading: const CircleAvatar(
+                  //     radius: 25,
+                  //     backgroundImage: AssetImage(
+                  //       "assets/images/Nointernet.png",
+                  //     ),
+                  //   ),
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => edit_collector(c: list[index]),
+                  //       ),
+                  //     );
+                  //   },
+                  //   // ignore: prefer_const_constructors
+                  //   title: Text(
+                  //     list[index].name,
+                  //     style: const TextStyle(
+                  //         fontWeight: FontWeight.w500, fontSize: 18),
+                  //   ),
+                  // ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

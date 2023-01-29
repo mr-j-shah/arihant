@@ -15,14 +15,8 @@ class _edit_collectorState extends State<edit_collector> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Collector"),
+        title: const Text("Edit Collector"),
         backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.edit),
-          )
-        ],
       ),
       body: Container(),
     );
