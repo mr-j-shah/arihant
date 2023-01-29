@@ -44,8 +44,8 @@ If you have any feedback, please reach out to us at shahjinay02@gmail.com
 
 ## Screenshots
 <img width="100" alt="image" src="https://user-images.githubusercontent.com/79891868/215313688-6deae995-1836-4087-891e-cdf161874375.png">
+<img width="100" alt="image" src="https://user-images.githubusercontent.com/79891868/215313700-88d094b2-73b6-4bfa-9c3e-f108d6a58dd5.png">
 
-![Screenshot_1674979534](https://user-images.githubusercontent.com/79891868/215313700-88d094b2-73b6-4bfa-9c3e-f108d6a58dd5.png)
 ![Screenshot_1674979541](https://user-images.githubusercontent.com/79891868/215313704-766f37c2-588e-476e-97c9-298618130684.png)
 ![Screenshot_1674979553](https://user-images.githubusercontent.com/79891868/215313707-7d8e2425-3f77-42cd-a231-4461a0dbd1ea.png)
 ![Screenshot_1674979563](https://user-images.githubusercontent.com/79891868/215313710-c2836c70-a61a-4fbb-9e30-441be28c74f1.png)
