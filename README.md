@@ -43,10 +43,18 @@ There are three part of Portion of Software.
 If you have any feedback, please reach out to us at shahjinay02@gmail.com
 
 ## Screenshots
-<img width="100" alt="image" src="https://user-images.githubusercontent.com/79891868/215313688-6deae995-1836-4087-891e-cdf161874375.png">
-<img width="100" alt="image" src="https://user-images.githubusercontent.com/79891868/215313700-88d094b2-73b6-4bfa-9c3e-f108d6a58dd5.png">
+<div class="row">
+  <div class="column">
+    <img src="https://user-images.githubusercontent.com/79891868/215313688-6deae995-1836-4087-891e-cdf161874375.png" alt="Snow" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="https://user-images.githubusercontent.com/79891868/215313700-88d094b2-73b6-4bfa-9c3e-f108d6a58dd5.png" alt="Forest" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="https://user-images.githubusercontent.com/79891868/215313704-766f37c2-588e-476e-97c9-298618130684.png" alt="Mountains" style="width:100%">
+  </div>
+</div>
 
-![Screenshot_1674979541](https://user-images.githubusercontent.com/79891868/215313704-766f37c2-588e-476e-97c9-298618130684.png)
 ![Screenshot_1674979553](https://user-images.githubusercontent.com/79891868/215313707-7d8e2425-3f77-42cd-a231-4461a0dbd1ea.png)
 ![Screenshot_1674979563](https://user-images.githubusercontent.com/79891868/215313710-c2836c70-a61a-4fbb-9e30-441be28c74f1.png)
 ![Screenshot_1674979568](https://user-images.githubusercontent.com/79891868/215313715-59b013ce-fab5-4951-9308-bcf42d89b9f1.png)
