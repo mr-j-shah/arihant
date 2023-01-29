@@ -79,9 +79,18 @@ class _addcollectionState extends State<addcollection> {
             ),
           )
         : Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(5, 8, 5, 0),
             child: Form(
               child: ListView(children: [
+                // const Padding(
+                //   padding: EdgeInsets.all(8.0),
+                //   // ignore: prefer_const_constructors
+                //   child: Text(
+                //     "Add Collection",
+                //     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                //     textAlign: TextAlign.center,
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(

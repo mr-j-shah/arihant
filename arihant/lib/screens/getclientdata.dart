@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, deprecated_member_use
 import 'dart:convert';
 import 'package:arihant/screens/getClientAccountList.dart';
 import 'package:http/http.dart' as http;
@@ -6,6 +6,7 @@ import 'package:arihant/api/clientapi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:searchfield/searchfield.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class getClientData extends StatefulWidget {
   const getClientData({super.key});
@@ -207,11 +208,7 @@ class _getClientDataState extends State<getClientData> {
                                   ),
                                   ListTile(
                                     onTap: (() async {
-                                      // if (!await launchUrlString(
-                                      //     'www.google.com',
-                                      //     mode: LaunchMode.inAppWebView)) {
-                                      //   throw 'Could not launch';
-                                      // }
+                                      launch("tel://$mobileNo");
                                     }),
                                     leading: const Icon(
                                       Icons.phone,

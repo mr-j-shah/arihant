@@ -79,9 +79,17 @@ class _homepageState extends State<homepage> {
                 ListTile(
                   leading: const Icon(Icons.add),
                   title: const Text(
-                    'Creat Clinet',
+                    'Add New Account',
                     style: TextStyle(fontSize: 18),
                   ),
+                  // ignore: prefer_const_constructors
+                  // subtitle: Padding(
+                  //   padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                  //   child: const Text(
+                  //     'For new client create which is not in data.',
+                  //     style: TextStyle(fontSize: 14),
+                  //   ),
+                  // ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -95,9 +103,17 @@ class _homepageState extends State<homepage> {
                 ListTile(
                   leading: const Icon(Icons.new_label),
                   title: const Text(
-                    'Add Account',
+                    'Add Existing Account',
                     style: TextStyle(fontSize: 18),
                   ),
+                  // ignore: prefer_const_constructors
+                  // subtitle: Padding(
+                  //   padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                  //   child: const Text(
+                  //     'For existing client which is avalible in data and take more money.',
+                  //     style: TextStyle(fontSize: 14),
+                  //   ),
+                  // ),
                   onTap: () {
                     Navigator.push(
                       context,
