@@ -1,3 +1,4 @@
+import 'package:arihantadmin/collector/collector_home.dart';
 import 'package:flutter/material.dart';
 
 class homepage extends StatefulWidget {
@@ -54,18 +55,18 @@ class _homepageState extends State<homepage> {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.new_label),
+            leading: const Icon(Icons.supervised_user_circle_rounded),
             title: const Text(
               'Collector',
               style: TextStyle(fontSize: 18),
             ),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const addaccount(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const collector_home(),
+                ),
+              );
             },
           ),
           const Divider(),
