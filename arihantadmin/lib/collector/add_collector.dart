@@ -1,10 +1,13 @@
 // ignore_for_file: camel_case_types, must_be_immutable, depend_on_referenced_packages
 
 import 'dart:io';
+import 'package:arihantadmin/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart';
+
+import 'collector_api.dart';
 
 class add_collector extends StatefulWidget {
   const add_collector({
@@ -261,7 +264,28 @@ class _add_collectorState extends State<add_collector> {
                         child: MaterialButton(
                           minWidth: double.infinity,
                           height: 60,
-                          onPressed: () {},
+                          onPressed: () async {
+                            String fileName = file!.path.split('/').last;
+                            if (isUpload) {
+                              bool res = await addCollector(
+                                  name: _name.text,
+                                  address: _address.text,
+                                  mobile: _mobile.text,
+                                  email: _email.text,
+                                  password: _password.text,
+                                  image: fileName);
+                              if (res) {
+                                // ignore: use_build_context_synchronously
+                                Navigator.pop(context);
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const homepage(),
+                                //   ),
+                                // );
+                              }
+                            }
+                          },
                           color: Colors.green,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -318,17 +342,19 @@ class _add_collectorState extends State<add_collector> {
 
   uploadFile() async {
     String uploadurl =
-        "http://kisanpariwar.com/aurangabad_first/imageupload.php";
+        "http://bhimshaktivicharmanch.com/arihant/collectorimageupload.php";
     //dont use http://localhost , because emulator don't get that address
     //insted use your local IP address or use live URL
     //hit "ipconfig" in windows or "ip a" in linux to get you local IP
 
-    FormData formdata = FormData.fromMap({
-      "file": await MultipartFile.fromFile(file!.path,
-          filename: basename(file!.path)
-          //show only filename from path
-          ),
-    });
+    FormData formdata = FormData.fromMap(
+      {
+        "file": await MultipartFile.fromFile(file!.path,
+            filename: basename(file!.path)
+            //show only filename from path
+            ),
+      },
+    );
 
     response = await dio.post(
       uploadurl,
@@ -350,15 +376,13 @@ class _add_collectorState extends State<add_collector> {
     if (response.statusCode == 200) {
       Map<String, dynamic> res = response.data;
       print(res);
-      if (!res["success"]) {
+      if (res["success"] && !res["error"]) {
         print("inside block");
         setState(() {
           isUpload = true;
         });
       }
       print(response.toString());
-
-      //print response from server
     } else {
       print("Error during connection to server.");
     }

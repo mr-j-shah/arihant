@@ -3,6 +3,8 @@
 import 'package:arihantadmin/collector/collector_api.dart';
 import 'package:flutter/material.dart';
 
+import '../homepage/homepage.dart';
+
 class edit_collector extends StatefulWidget {
   edit_collector({super.key, required this.c});
   collector c;
@@ -195,7 +197,24 @@ class _edit_collectorState extends State<edit_collector> {
                   child: MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
-                    onPressed: () {},
+                    onPressed: () async {
+                      bool res = await updateCollector(
+                        name: _name.text,
+                        address: _address.text,
+                        mobile: _mobile.text,
+                        email: _email.text,
+                      );
+                      if (res) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const homepage(),
+                        //   ),
+                        // );
+                      }
+                    },
                     color: Colors.green,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
