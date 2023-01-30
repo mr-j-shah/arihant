@@ -2,6 +2,7 @@
 
 import 'package:arihantadmin/collector/add_collector.dart';
 import 'package:arihantadmin/collector/collector_api.dart';
+import 'package:arihantadmin/collector/collector_profile.dart';
 import 'package:arihantadmin/collector/edit_collector.dart';
 import 'package:flutter/material.dart';
 
@@ -171,7 +172,19 @@ class _collector_homeState extends State<collector_home> {
                                   "http://bhimshaktivicharmanch.com/arihant/files/${list[index].image}",
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        collector_profile(c: list[index]),
+                                  ),
+                                ).then((value) {
+                                  setState(() {
+                                    getdata();
+                                  });
+                                });
+                              },
                               // ignore: prefer_const_constructors
                               title: Text(
                                 list[index].name,

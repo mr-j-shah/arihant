@@ -17,6 +17,7 @@ class collector {
     user["image"] = image;
     user["address"] = address;
     user["mobile"] = mobile;
+    user["dailyCollAmount"] = dailyCollAmount;
     return user;
   }
 
@@ -25,7 +26,8 @@ class collector {
         email = json['email'],
         image = json["image"],
         address = json["address"],
-        mobile = json["mobile"];
+        mobile = json["mobile"],
+        dailyCollAmount = json["dailyCollAmount"].toString();
 }
 
 Future<bool> addCollector(
