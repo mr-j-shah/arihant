@@ -83,6 +83,7 @@ class _collector_homeState extends State<collector_home> {
                         if (direction == DismissDirection.endToStart) {
                           // TO DO call api
                         } else {
+                          print(list[index]);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
