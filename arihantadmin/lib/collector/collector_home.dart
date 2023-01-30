@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, prefer_const_literals_to_create_immutables
 
+import 'package:arihantadmin/collector/add_collector.dart';
 import 'package:arihantadmin/collector/collector_api.dart';
 import 'package:arihantadmin/collector/edit_collector.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,14 @@ class _collector_homeState extends State<collector_home> {
             child: SizedBox(
               width: double.maxFinite,
               child: InkWell(
-                onTap: (() {}),
+                onTap: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => add_collector(),
+                    ),
+                  );
+                }),
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -69,123 +77,101 @@ class _collector_homeState extends State<collector_home> {
               itemCount: list.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                  child: Dismissible(
-                    confirmDismiss: (direction) async {
-                      if (direction == DismissDirection.endToStart) {
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                edit_collector(c: list[index]),
-                          ),
-                        );
-                      }
-                    },
-                    background: Container(
-                      color: Colors.green,
-                      child: Align(
-                        // ignore: sort_child_properties_last
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: <Widget>[
-                            const SizedBox(
-                              width: 20,
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Dismissible(
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          // TO DO call api
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  edit_collector(c: list[index]),
                             ),
-                            const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                            ),
-                            const Text(
-                              " Edit",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.centerLeft,
-                      ),
-                    ),
-                    secondaryBackground: Container(
-                      color: Colors.red,
-                      child: Align(
-                        // ignore: sort_child_properties_last
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            const Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
-                            const Text(
-                              " Delete",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.centerRight,
-                      ),
-                    ),
-                    key: Key(list[index].name),
-                    child: ListTile(
-                      leading: const CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(
-                          "assets/images/Nointernet.png",
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                edit_collector(c: list[index]),
-                          ),
-                        );
+                          );
+                        }
                       },
-                      // ignore: prefer_const_constructors
-                      title: Text(
-                        list[index].name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 18),
+                      background: Container(
+                        color: Colors.green,
+                        child: Align(
+                          // ignore: sort_child_properties_last
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: <Widget>[
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              const Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
+                              const Text(
+                                " Edit",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                          alignment: Alignment.centerLeft,
+                        ),
                       ),
-                    ),
-                  ),
-                  // child: ListTile(
-                  //   leading: const CircleAvatar(
-                  //     radius: 25,
-                  //     backgroundImage: AssetImage(
-                  //       "assets/images/Nointernet.png",
-                  //     ),
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => edit_collector(c: list[index]),
-                  //       ),
-                  //     );
-                  //   },
-                  //   // ignore: prefer_const_constructors
-                  //   title: Text(
-                  //     list[index].name,
-                  //     style: const TextStyle(
-                  //         fontWeight: FontWeight.w500, fontSize: 18),
-                  //   ),
-                  // ),
-                );
+                      secondaryBackground: Container(
+                        color: Colors.orange,
+                        child: Align(
+                          // ignore: sort_child_properties_last
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              const Icon(
+                                Icons.call,
+                                color: Colors.white,
+                              ),
+                              const Text(
+                                "Call",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                          alignment: Alignment.centerRight,
+                        ),
+                      ),
+                      key: Key(list[index].name),
+                      child: ListTile(
+                        leading: const CircleAvatar(
+                          radius: 25,
+                          backgroundImage: AssetImage(
+                            "assets/images/Nointernet.png",
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  edit_collector(c: list[index]),
+                            ),
+                          );
+                        },
+                        // ignore: prefer_const_constructors
+                        title: Text(
+                          list[index].name,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 18),
+                        ),
+                      ),
+                    ));
               },
             ),
           ),
