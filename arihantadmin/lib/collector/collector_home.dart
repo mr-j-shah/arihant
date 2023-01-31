@@ -1,10 +1,11 @@
-// ignore_for_file: camel_case_types, prefer_const_literals_to_create_immutables
+// ignore_for_file: camel_case_types, prefer_const_literals_to_create_immutables, deprecated_member_use
 
 import 'package:arihantadmin/collector/add_collector.dart';
 import 'package:arihantadmin/collector/collector_api.dart';
 import 'package:arihantadmin/collector/collector_profile.dart';
 import 'package:arihantadmin/collector/edit_collector.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class collector_home extends StatefulWidget {
   const collector_home({super.key});
@@ -93,7 +94,7 @@ class _collector_homeState extends State<collector_home> {
                           child: Dismissible(
                             confirmDismiss: (direction) async {
                               if (direction == DismissDirection.endToStart) {
-                                // TO DO call api
+                                launch("tel://${list[index].mobile}");
                               } else {
                                 print(list[index]);
                                 Navigator.push(

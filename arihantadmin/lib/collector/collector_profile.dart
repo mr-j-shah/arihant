@@ -1,8 +1,9 @@
-// ignore_for_file: camel_case_types, must_be_immutable
+// ignore_for_file: camel_case_types, must_be_immutable, deprecated_member_use
 
 import 'package:arihantadmin/collector/collector_api.dart';
 import 'package:arihantadmin/collector/edit_collector.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class collector_profile extends StatefulWidget {
   collector_profile({super.key, required this.c});
@@ -77,28 +78,31 @@ class _collector_profileState extends State<collector_profile> {
             leading: const Icon(Icons.location_city),
             title: Text(
               widget.c.address,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
           ),
           ListTile(
+            onTap: () {
+              launch("tel://${widget.c.mobile}");
+            },
             leading: const Icon(Icons.call),
             title: Text(
               widget.c.mobile,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
           ),
           ListTile(
             leading: const Icon(Icons.email),
             title: Text(
               widget.c.email,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
           ),
           ListTile(
             leading: const Icon(Icons.money_outlined),
             title: Text(
               widget.c.dailyCollAmount,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
           ),
         ],

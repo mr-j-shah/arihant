@@ -5,6 +5,7 @@ import 'package:arihant/screens/getclientdata.dart';
 import 'package:arihant/screens/graph.dart';
 import 'package:arihant/screens/login.dart';
 import 'package:arihant/screens/user.dart';
+import 'package:arihant/screens/usermanual.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
@@ -152,6 +153,22 @@ class _homepageState extends State<homepage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const getClientData(),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.info),
+                  title: const Text(
+                    'User Manual',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const usermanual(),
                       ),
                     );
                   },

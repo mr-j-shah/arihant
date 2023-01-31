@@ -55,8 +55,7 @@ class authentication {
                 image: resposne["image"],
                 address: resposne["address"],
                 mobile: resposne["mobile"]));
-        await SessionManager().set("email", resposne["email"]);
-        await SessionManager().set("name", resposne["name"]);
+
         return true;
       }
       return false;
