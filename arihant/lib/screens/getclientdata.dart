@@ -287,7 +287,16 @@ class _getClientDataState extends State<getClientData> {
           child: SizedBox(
             width: double.maxFinite,
             child: InkWell(
-              onTap: (() {}),
+              onTap: (() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => addaccount(c: widget.c),
+                  ),
+                ).then((value) {
+                  Navigator.pop(context);
+                });
+              }),
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
