@@ -47,6 +47,7 @@ class authentication {
       print("Success");
       Map<String, dynamic> resposne = jsonDecode(res.body);
       if (resposne["status"] == "success") {
+        print(resposne["image"]);
         await SessionManager().set(
             "data",
             collector(

@@ -22,6 +22,7 @@ class _client_homeState extends State<client_home> {
   String _email = "";
   bool isLoading = true;
   List<client> clientList = [];
+  List<client> fullList = [];
   @override
   void initState() {
     getdata();
@@ -36,6 +37,7 @@ class _client_homeState extends State<client_home> {
       _email = c.email.toString();
     });
     await getclinet(_email).then((value) {
+      fullList = value;
       clientList = value;
     });
     print(clientList.length);
@@ -70,12 +72,11 @@ class _client_homeState extends State<client_home> {
                           MaterialPageRoute(
                             builder: (context) => const addclient(),
                           ),
-                        );
-                        // .then((value) {
-                        //   setState(() {
-                        //     getdata();
-                        //   });
-                        // });
+                        ).then((value) {
+                          setState(() {
+                            getdata();
+                          });
+                        });
                       }),
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -93,6 +94,54 @@ class _client_homeState extends State<client_home> {
                             ),
                             textAlign: TextAlign.center,
                           ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: TextFormField(
+                      onChanged: ((value) {
+                        List<client> list = <client>[];
+                        for (client c in fullList) {
+                          List<client> results = [];
+                          if (value.isEmpty) {
+                            // if the search field is empty or only contains white-space, we'll display all users
+                            results = fullList;
+                          } else {
+                            results = clientList
+                                .where(
+                                  (user) => user.name.toLowerCase().contains(
+                                        value.toLowerCase(),
+                                      ),
+                                )
+                                .toList();
+                            // we use the toLowerCase() method to make it case-insensitive
+                          }
+
+                          // Refresh the UI
+                          setState(() {
+                            clientList = results;
+                          });
+                        }
+                      }),
+                      cursorColor: const Color.fromRGBO(36, 59, 85, 1),
+                      decoration: InputDecoration(
+                        hintText: "Client Name for Search",
+                        labelText: "Search",
+                        labelStyle: const TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: const BorderSide(color: Colors.green),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          // ignore: prefer_const_constructors
+                          borderSide: BorderSide(
+                              color: const Color.fromRGBO(36, 59, 85, 1)),
                         ),
                       ),
                     ),

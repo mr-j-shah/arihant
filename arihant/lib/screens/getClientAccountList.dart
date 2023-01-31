@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:searchfield/searchfield.dart';
 
+import 'addaccount.dart';
+
 class getClientAccountList extends StatefulWidget {
-  getClientAccountList({super.key, required this.clientAccNo});
-  String clientAccNo;
+  getClientAccountList({super.key, required this.c});
+  client c;
   @override
   State<getClientAccountList> createState() => _getClientAccountListState();
 }
@@ -25,7 +27,7 @@ class _getClientAccountListState extends State<getClientAccountList> {
   }
 
   getdata() async {
-    await getAccountData(widget.clientAccNo).then((value) {
+    await getAccountData(widget.c.id).then((value) {
       accountList = value;
     });
     setState(() {
@@ -50,18 +52,64 @@ class _getClientAccountListState extends State<getClientAccountList> {
             )
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: accountList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: (() {}),
-                    child: accountListDesign(
-                      index: index,
-                      accountList: accountList,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: InkWell(
+                        onTap: (() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => addaccount(
+                                c: widget.c,
+                              ),
+                            ),
+                          ).then((value) {
+                            setState(() {
+                              getdata();
+                            });
+                          });
+                        }),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 1.5,
+                          color: Colors.blue[50],
+                          child: const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(
+                              "Add New Account",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  );
-                },
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: accountList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: (() {}),
+                          child: accountListDesign(
+                            index: index,
+                            accountList: accountList,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
     );

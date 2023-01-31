@@ -25,6 +25,7 @@ class _homepageState extends State<homepage> {
   bool isLoading = true;
   String _name = "";
   String _email = "";
+  String _image = "";
   int _screencount = 1;
   List<Widget> screens = [
     const collectiondata(),
@@ -61,6 +62,12 @@ class _homepageState extends State<homepage> {
               child: ListView(children: [
                 // ignore: prefer_const_constructors
                 UserAccountsDrawerHeader(
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      "http://bhimshaktivicharmanch.com/arihant/files/$_image",
+                    ),
+                    radius: 70,
+                  ),
                   // ignore: prefer_const_constructors
                   decoration: BoxDecoration(
                     // ignore: prefer_const_constructors
@@ -80,7 +87,7 @@ class _homepageState extends State<homepage> {
                   //TO DO Chnage from a Session Management
                 ),
                 ListTile(
-                  leading: const Icon(Icons.add),
+                  leading: const Icon(Icons.people),
                   title: const Text(
                     'Client',
                     style: TextStyle(fontSize: 18),
@@ -208,6 +215,7 @@ class _homepageState extends State<homepage> {
     setState(() {
       _name = c.name.toString();
       _email = c.email.toString();
+      _image = c.image.toString();
       isLoading = false;
     });
   }

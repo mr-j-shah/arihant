@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, use_build_context_synchronously
 
 import 'package:arihant/api/clientapi.dart';
 import 'package:flutter/material.dart';
@@ -373,6 +373,7 @@ class _addaccountState extends State<addaccount> {
                               _date,
                               noofacc + 1);
                           if (accCreate) {
+                            // ignore: use_build_context_synchronously
                             await showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
@@ -390,13 +391,7 @@ class _addaccountState extends State<addaccount> {
                                 ],
                               ),
                             );
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const homepage(),
-                              ),
-                            );
+                            Navigator.pop(context);
                           } else {
                             await showDialog(
                               context: context,

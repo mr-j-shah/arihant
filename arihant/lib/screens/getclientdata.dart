@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, deprecated_member_use
 
+import 'package:arihant/screens/addaccount.dart';
 import 'package:arihant/screens/getClientAccountList.dart';
 
 import 'package:arihant/api/clientapi.dart';
@@ -38,6 +39,7 @@ class _getClientDataState extends State<getClientData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Client Details"),
         backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
       ),
@@ -96,7 +98,7 @@ class _getClientDataState extends State<getClientData> {
         const Divider(
           endIndent: 20,
           indent: 20,
-          color: Colors.black87,
+          color: Colors.black,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -126,11 +128,7 @@ class _getClientDataState extends State<getClientData> {
                   ),
                 ),
               ),
-              const Divider(
-                endIndent: 20,
-                indent: 20,
-                color: Colors.black87,
-              ),
+
               const Text(
                 "Date of Last Update: ",
                 style: TextStyle(
@@ -153,11 +151,7 @@ class _getClientDataState extends State<getClientData> {
                   ),
                 ),
               ),
-              const Divider(
-                endIndent: 20,
-                indent: 20,
-                color: Colors.black87,
-              ),
+
               const Text(
                 "Total Amount: ",
                 style: TextStyle(
@@ -180,11 +174,7 @@ class _getClientDataState extends State<getClientData> {
                   ),
                 ),
               ),
-              const Divider(
-                endIndent: 20,
-                indent: 20,
-                color: Colors.black87,
-              ),
+
               const Text(
                 "Remaining Amount: ",
                 style: TextStyle(
@@ -207,11 +197,7 @@ class _getClientDataState extends State<getClientData> {
                   ),
                 ),
               ),
-              const Divider(
-                endIndent: 20,
-                indent: 20,
-                color: Colors.black87,
-              ),
+
               const Text(
                 "Penalty Days: ",
                 style: TextStyle(
@@ -234,11 +220,7 @@ class _getClientDataState extends State<getClientData> {
                   ),
                 ),
               ),
-              const Divider(
-                endIndent: 20,
-                indent: 20,
-                color: Colors.black87,
-              ),
+
               const Text(
                 "Number of Account: ",
                 style: TextStyle(
@@ -264,36 +246,63 @@ class _getClientDataState extends State<getClientData> {
             ],
           ),
         ),
-        Container(
-          margin: const EdgeInsets.all(5),
-          // width: width,
-          child: InkWell(
-            onTap: (() {
-              Navigator.push(
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: SizedBox(
+            width: double.maxFinite,
+            child: InkWell(
+              onTap: (() {
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          getClientAccountList(clientAccNo: widget.c.id)));
-            }),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              elevation: 1.5,
-              color: Colors.blue[50],
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  // ignore: prefer_const_constructors
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Text(
-                      "Get Data of Account (Click Here)",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    builder: (context) => getClientAccountList(
+                      c: widget.c,
                     ),
+                  ),
+                );
+              }),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1.5,
+                color: Colors.blue[50],
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    "Data of Account [${widget.c.noOfAcc} Account]",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: SizedBox(
+            width: double.maxFinite,
+            child: InkWell(
+              onTap: (() {}),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1.5,
+                color: Colors.blue[50],
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    "Add Account",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),

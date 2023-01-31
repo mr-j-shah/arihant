@@ -114,12 +114,9 @@ List<client> listToObjClient(List<dynamic> list) {
 
 Future<List<client>> getclinet(String email) async {
   List<client> datalist = [];
-  final response = await http.post(
+  final response = await http.get(
     Uri.parse('http://bhimshaktivicharmanch.com/arihant/getclient.php'),
     headers: {"Content-Type": "application/json"},
-    body: jsonEncode(
-      <String, dynamic>{'email': email},
-    ),
   );
   print(response.statusCode);
   print(response.body);
@@ -157,12 +154,9 @@ List<Account> listToObjAcc(List<dynamic> list) {
 
 Future<List<Account>> getcAcc(String email) async {
   List<Account> datalist = [];
-  final response = await http.post(
+  final response = await http.get(
     Uri.parse('http://bhimshaktivicharmanch.com/arihant/getaccount.php'),
     headers: {"Content-Type": "application/json"},
-    body: jsonEncode(
-      <String, dynamic>{'email': email},
-    ),
   );
   print(response.statusCode);
   print(response.body);

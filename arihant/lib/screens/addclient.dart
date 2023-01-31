@@ -379,6 +379,7 @@ class _addclientState extends State<addclient> {
                                 bool dataAdded = await cli.addClient();
                                 bool accCreate = await acc.adddAcc();
                                 if (dataAdded && accCreate) {
+                                  // ignore: use_build_context_synchronously
                                   await showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
@@ -397,12 +398,7 @@ class _addclientState extends State<addclient> {
                                     ),
                                   );
                                   // ignore: use_build_context_synchronously
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const homepage(),
-                                    ),
-                                  );
+                                  Navigator.pop(context);
                                 } else {
                                   await showDialog(
                                     context: context,
