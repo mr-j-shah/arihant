@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types, deprecated_member_use
-import 'dart:convert';
+
 import 'package:arihant/screens/getClientAccountList.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:arihant/api/clientapi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
@@ -11,15 +11,15 @@ import 'package:url_launcher/url_launcher.dart';
 import '../api/authentication.dart';
 
 class getClientData extends StatefulWidget {
-  const getClientData({super.key});
-
+  getClientData({super.key, required this.c});
+  client c;
   @override
   State<getClientData> createState() => _getClientDataState();
 }
 
 class _getClientDataState extends State<getClientData> {
   List<client> clientList = [];
-  bool isLoading = true;
+
   bool isDetail = false;
   String _email = "", doj = "";
   late String address, mobileNo;
@@ -31,27 +31,7 @@ class _getClientDataState extends State<getClientData> {
   List<Map<String, dynamic>> accountList = [];
   @override
   void initState() {
-    getdata();
     super.initState();
-  }
-
-  getdata() async {
-    collector c = collector.fromJson(await await SessionManager().get("data"));
-
-    setState(() {
-      _email = c.email.toString();
-    });
-    await getclinet(_email).then((value) {
-      clientList = value;
-    });
-    for (var data in clientList) {
-      String value = "${data.name} [${data.id}]";
-      idList.add(value);
-    }
-    print(idList.length);
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
@@ -61,439 +41,266 @@ class _getClientDataState extends State<getClientData> {
         title: const Text("Client Details"),
         backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
       ),
-      body: isLoading
-          // ignore: prefer_const_constructors
-          ? Center(
-              // ignore: prefer_const_constructors
-              child: CircularProgressIndicator(
-                color: const Color.fromRGBO(36, 59, 85, 1),
+      body: ListView(children: [
+        SizedBox(
+          // ignore: sort_child_properties_last
+          child: Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(100),
+                      bottomRight: Radius.circular(100)),
+                  color: Color.fromRGBO(36, 59, 85, 1),
+                ),
+                height: MediaQuery.of(context).size.height * 0.10,
               ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                child: ListView(children: [
-                  clientList.isEmpty
-                      ? Container()
-                      : Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: SearchField(
-                            suggestionAction: SuggestionAction.unfocus,
-                            suggestions: idList
-                                .map(
-                                  (e) => SearchFieldListItem<String>(
-                                    e,
-                                    item: e,
-                                  ),
-                                )
-                                .toList(),
-                            searchInputDecoration: InputDecoration(
-                              labelStyle: const TextStyle(color: Colors.black),
-                              labelText: "Client Id:",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: const BorderSide(
-                                    color: Color.fromRGBO(36, 59, 85, 1)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: const BorderSide(
-                                    color: Color.fromRGBO(36, 59, 85, 1)),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: const BorderSide(color: Colors.red),
-                              ),
-                            ),
-                            // validator: MultiValidator([
-                            //   RequiredValidator(errorText: "Cannot Be Empty"),
-                            // ]),
-                            onSuggestionTap: (val) {
-                              print(val.item);
-                              bool check = idList.contains(val.item);
-                              print(check);
-                              if (check == true) {
-                                print("contains");
-                                int index = idList.indexOf(val.item.toString());
-                                setState(() {
-                                  _clientName = clientList[index].name;
-                                  _clientAccNo = clientList[index].id;
-                                  noofacc = clientList[index].noOfAcc;
-                                  amountTillNow = clientList[index].amount;
-                                  remAmountTillNow =
-                                      clientList[index].remainingamount;
-                                  penalty = clientList[index].penaltyday;
-                                  mobileNo = clientList[index].mobileno;
-                                  address = clientList[index].address;
-                                  doj = clientList[index].doj;
-                                  isSelected = true;
-                                });
-                              }
-                            },
-                            maxSuggestionsInViewPort: 6,
-                            itemHeight: 50,
-                          ),
-                        ),
-                  isSelected
-                      ? Container(
-                          margin: const EdgeInsets.all(8.0),
-                          // width: width,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            elevation: 1.5,
-                            color: Colors.blue[50],
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ListTile(
-                                    leading: const Icon(
-                                      Icons.person_outline,
-                                      color: Colors.black,
-                                    ),
-                                    title: Text(
-                                      _clientName.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.black26,
-                                    thickness: 2,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(
-                                      Icons.numbers,
-                                      color: Colors.black,
-                                    ),
-                                    title: Text(
-                                      _clientAccNo.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.black26,
-                                    thickness: 2,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(
-                                      Icons.home,
-                                      color: Colors.black,
-                                    ),
-                                    title: Text(
-                                      address,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.black26,
-                                    thickness: 2,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                  ListTile(
-                                    onTap: (() async {
-                                      launch("tel://$mobileNo");
-                                    }),
-                                    leading: const Icon(
-                                      Icons.phone,
-                                      color: Colors.black,
-                                    ),
-                                    title: Text(
-                                      mobileNo,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.black26,
-                                    thickness: 2,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(
-                                      Icons.date_range,
-                                      color: Colors.black,
-                                    ),
-                                    title: Text(
-                                      doj.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(),
-                  isSelected
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.45,
-                                    margin: const EdgeInsets.all(5.0),
-                                    // width: width,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      elevation: 1.5,
-                                      color: Colors.white70,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              "Total Remaining Amount: ",
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color.fromRGBO(
-                                                    36, 59, 85, 1),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Center(
-                                                child: Text(
-                                                  remAmountTillNow.toString(),
-                                                  // ignore: prefer_const_constructors
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.45,
-                                    margin: const EdgeInsets.all(5.0),
-                                    // width: width,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      elevation: 1.5,
-                                      color: Colors.white70,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              "Total Tacken Amount: ",
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color.fromRGBO(
-                                                    36, 59, 85, 1),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Center(
-                                                child: Text(
-                                                  amountTillNow.toString(),
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.45,
-                                    margin: const EdgeInsets.all(5.0),
-                                    // width: width,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      elevation: 1.5,
-                                      color: Colors.white70,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              "No. Of Account : ",
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color.fromRGBO(
-                                                    36, 59, 85, 1),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Center(
-                                                child: Text(
-                                                  noofacc.toString(),
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.45,
-                                    margin: const EdgeInsets.all(5.0),
-                                    // width: width,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      elevation: 1.5,
-                                      color: Colors.white70,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              "Penalty: ",
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color.fromRGBO(
-                                                    36, 59, 85, 1),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Center(
-                                                child: Text(
-                                                  penalty.toString(),
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      : Container(),
-                  isSelected
-                      ? Container(
-                          margin: const EdgeInsets.all(5),
-                          // width: width,
-                          child: InkWell(
-                            onTap: (() {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          getClientAccountList(
-                                              clientAccNo: _clientAccNo)));
-                            }),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              elevation: 1.5,
-                              color: Colors.blue[50],
-                              child: Center(
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  // ignore: prefer_const_constructors
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text(
-                                      "Get Data of Account (Click Here)",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(),
-                ]),
+            ],
+          ),
+          height: MediaQuery.of(context).size.height * 0.10,
+          width: double.maxFinite,
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+          child: Center(
+            child: Text(
+              widget.c.name,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 34),
+            ),
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.info),
+          title: Text(
+            widget.c.id.toString(),
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.location_city),
+          title: Text(
+            widget.c.address,
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        ListTile(
+          onTap: () {
+            launch("tel://${widget.c.mobileno}");
+          },
+          leading: const Icon(Icons.call),
+          title: Text(
+            widget.c.mobileno,
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        const Divider(
+          endIndent: 20,
+          indent: 20,
+          color: Colors.black87,
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              const Text(
+                "Date Of Joining: ",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromRGBO(36, 59, 85, 1),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    widget.c.doj,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                endIndent: 20,
+                indent: 20,
+                color: Colors.black87,
+              ),
+              const Text(
+                "Date of Last Update: ",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromRGBO(36, 59, 85, 1),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    widget.c.updatedate,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                endIndent: 20,
+                indent: 20,
+                color: Colors.black87,
+              ),
+              const Text(
+                "Total Amount: ",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromRGBO(36, 59, 85, 1),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    widget.c.amount.toString(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                endIndent: 20,
+                indent: 20,
+                color: Colors.black87,
+              ),
+              const Text(
+                "Remaining Amount: ",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromRGBO(36, 59, 85, 1),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    widget.c.remainingamount.toString(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                endIndent: 20,
+                indent: 20,
+                color: Colors.black87,
+              ),
+              const Text(
+                "Penalty Days: ",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromRGBO(36, 59, 85, 1),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    widget.c.penaltyday.toString(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                endIndent: 20,
+                indent: 20,
+                color: Colors.black87,
+              ),
+              const Text(
+                "Number of Account: ",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromRGBO(36, 59, 85, 1),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    widget.c.noOfAcc.toString(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(5),
+          // width: width,
+          child: InkWell(
+            onTap: (() {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          getClientAccountList(clientAccNo: widget.c.id)));
+            }),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              elevation: 1.5,
+              color: Colors.blue[50],
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  // ignore: prefer_const_constructors
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      "Get Data of Account (Click Here)",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
+          ),
+        ),
+      ]),
     );
   }
 }

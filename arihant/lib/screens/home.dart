@@ -1,6 +1,7 @@
 import 'package:arihant/screens/addaccount.dart';
 import 'package:arihant/screens/addclient.dart';
 import 'package:arihant/screens/addcollection.dart';
+import 'package:arihant/screens/client/client_home.dart';
 import 'package:arihant/screens/getclientdata.dart';
 import 'package:arihant/screens/graph.dart';
 import 'package:arihant/screens/login.dart';
@@ -81,7 +82,7 @@ class _homepageState extends State<homepage> {
                 ListTile(
                   leading: const Icon(Icons.add),
                   title: const Text(
-                    'Add New Account',
+                    'Client',
                     style: TextStyle(fontSize: 18),
                   ),
                   // ignore: prefer_const_constructors
@@ -96,67 +97,12 @@ class _homepageState extends State<homepage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const addclient(),
+                        builder: (context) => const client_home(),
                       ),
                     );
                   },
                 ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.new_label),
-                  title: const Text(
-                    'Add Existing Account',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  // ignore: prefer_const_constructors
-                  // subtitle: Padding(
-                  //   padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                  //   child: const Text(
-                  //     'For existing client which is avalible in data and take more money.',
-                  //     style: TextStyle(fontSize: 14),
-                  //   ),
-                  // ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const addaccount(),
-                      ),
-                    );
-                  },
-                ),
-                // const Divider(),
-                // ListTile(
-                //   leading: const Icon(Icons.info),
-                //   title: const Text(
-                //     'Today Collection',
-                //     style: TextStyle(fontSize: 18),
-                //   ),
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => const collectiondata(),
-                //       ),
-                //     );
-                //   },
-                // ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.data_object),
-                  title: const Text(
-                    'Get Client Details',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onTap: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const getClientData(),
-                      ),
-                    );
-                  },
-                ),
+
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.info),
