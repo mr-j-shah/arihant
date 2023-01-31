@@ -48,31 +48,3 @@ Future<bool> addcollectionapi(String id, String collectionid, String email,
     return false;
   }
 }
-
-Future<bool> updateClientApi(
-    String id, int amount, int rmamount, String updatedate, int noofacc) async {
-  final response = await http.post(
-    Uri.parse(
-        'http://bhimshaktivicharmanch.com/arihant/updClientAftNewAcc.php'),
-    headers: {"Content-Type": "application/json"},
-    body: jsonEncode(
-      <String, dynamic>{
-        'id': id,
-        'amount': amount,
-        'rmamount': rmamount,
-        'updatedate': updatedate,
-        'noofacc': noofacc,
-      },
-    ),
-  );
-  print(response.statusCode);
-  print(response.body);
-  if (response.statusCode == 200) {
-    if (response.body == "Success") {
-      return true;
-    }
-    return false;
-  } else {
-    return false;
-  }
-}

@@ -1,3 +1,4 @@
+import 'package:arihantadmin/client/client_home.dart';
 import 'package:arihantadmin/collector/collector_home.dart';
 import 'package:flutter/material.dart';
 
@@ -45,12 +46,12 @@ class _homepageState extends State<homepage> {
               style: TextStyle(fontSize: 18),
             ),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const addclient(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const client_home(),
+                ),
+              );
             },
           ),
           const Divider(),
@@ -67,40 +68,6 @@ class _homepageState extends State<homepage> {
                   builder: (context) => const collector_home(),
                 ),
               );
-            },
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.data_object),
-            title: const Text(
-              'Get Client Details',
-              style: TextStyle(fontSize: 18),
-            ),
-            onTap: () async {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const getClientData(),
-              //   ),
-              // );
-            },
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text(
-              'Log Out',
-              style: TextStyle(fontSize: 18),
-            ),
-            onTap: () async {
-              // await SessionManager().destroy();
-              // // ignore: use_build_context_synchronously
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const login(),
-              //   ),
-              // );
             },
           ),
         ]),
