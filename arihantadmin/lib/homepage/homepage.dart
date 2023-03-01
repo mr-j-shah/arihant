@@ -1,5 +1,6 @@
 import 'package:arihantadmin/client/client_home.dart';
 import 'package:arihantadmin/collector/collector_home.dart';
+import 'package:arihantadmin/homepage/graph.dart';
 import 'package:flutter/material.dart';
 
 class homepage extends StatefulWidget {
@@ -10,6 +11,20 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
+  bool isLoading = true;
+  String _name = "";
+  String _email = "";
+  String _image = "";
+  int _screencount = 0;
+  List<Widget> screens = [
+    const graph(),
+  ];
+  @override
+  void initState() {
+    // getdata();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +87,7 @@ class _homepageState extends State<homepage> {
           ),
         ]),
       ),
+      body: screens[_screencount],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -92,7 +108,9 @@ class _homepageState extends State<homepage> {
                 ),
                 IconButton(
                   onPressed: () {
-                    setState(() {});
+                    setState(() {
+                      _screencount = 0;
+                    });
                   },
                   icon: const Icon(Icons.add_circle_outline_sharp),
                   color: Colors.white,
