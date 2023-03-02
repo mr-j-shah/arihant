@@ -20,25 +20,74 @@ List<DailyCollection> listToObjDailyCollection(List<dynamic> list) {
   return collection;
 }
 
-Future<List<DailyCollection>> DailyTotalCollection() async {
-  List<DailyCollection> collection = [];
-  final response = await http.post(
+class NewClientTotal {
+  String date;
+  int Total;
+  NewClientTotal({required this.date, required this.Total});
+}
+
+ConverterNewClientTotal(Map<String, dynamic> c) {
+  return NewClientTotal(date: c["date"], Total: int.parse(c["total"]));
+}
+
+List<NewClientTotal> listToObjNewClientTotal(List<dynamic> list) {
+  List<NewClientTotal> collection = [];
+  for (var i in list) {
+    NewClientTotal data = ConverterNewClientTotal(i);
+    collection.add(data);
+  }
+  return collection;
+}
+
+class CollectorCollection {
+  String email;
+  int Total;
+  CollectorCollection({required this.email, required this.Total});
+}
+
+ConverterCollectorCollection(Map<String, dynamic> c) {
+  return CollectorCollection(
+      email: c["email"], Total: int.parse(c["collectionToday"]));
+}
+
+List<CollectorCollection> listToObjCollectorCollection(List<dynamic> list) {
+  List<CollectorCollection> collection = [];
+  for (var i in list) {
+    CollectorCollection data = ConverterCollectorCollection(i);
+    collection.add(data);
+  }
+  return collection;
+}
+
+Future<List<dynamic>> DailyTotalCollection() async {
+  List<dynamic> collection = [];
+  final response = await http.get(
     Uri.parse(
         'http://bhimshaktivicharmanch.com/arihant/getDailyCollectionTotal.php'),
     headers: {"Content-Type": "application/json"},
-    body: jsonEncode(
-      <String, dynamic>{
-        'email': 'daxay2310@gmail.com',
-      },
-    ),
   );
   print(response.statusCode);
   print(response.body);
   if (response.statusCode == 200) {
-    List<dynamic> res = jsonDecode(response.body);
-    collection = listToObjDailyCollection(res);
+    collection = jsonDecode(response.body);
   } else {
     print("Fail");
   }
   return collection;
+}
+
+Future<Map<String, dynamic>> dashboardData() async {
+  Map<String, dynamic> res = {};
+  final response = await http.get(
+    Uri.parse('http://bhimshaktivicharmanch.com/arihant/dashboard.php'),
+    headers: {"Content-Type": "application/json"},
+  );
+  print(response.statusCode);
+  print(response.body);
+  if (response.statusCode == 200) {
+    res = jsonDecode(response.body);
+  } else {
+    print("Fail");
+  }
+  return res;
 }

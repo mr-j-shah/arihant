@@ -1,5 +1,6 @@
 import 'package:arihantadmin/client/client_home.dart';
 import 'package:arihantadmin/collector/collector_home.dart';
+import 'package:arihantadmin/homepage/dashboard.dart';
 import 'package:arihantadmin/homepage/graph.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class _homepageState extends State<homepage> {
   String _image = "";
   int _screencount = 0;
   List<Widget> screens = [
+    const dashboard(),
     const graph(),
   ];
   @override
@@ -102,17 +104,19 @@ class _homepageState extends State<homepage> {
                   child: IconButton(
                       color: Colors.white,
                       onPressed: () {
-                        setState(() {});
+                        setState(() {
+                          _screencount = 0;
+                        });
                       },
                       icon: const Icon(Icons.home)),
                 ),
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      _screencount = 0;
+                      _screencount = 1;
                     });
                   },
-                  icon: const Icon(Icons.add_circle_outline_sharp),
+                  icon: const Icon(Icons.auto_graph),
                   color: Colors.white,
                 ),
                 Padding(
