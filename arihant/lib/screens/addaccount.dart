@@ -49,9 +49,8 @@ class _addaccountState extends State<addaccount> {
     collector c = collector.fromJson(await SessionManager().get("data"));
 
     setState(() {
+      _id.text = widget.c.id;
       _date = formatted;
-      _name = c.name.toString();
-      _email = c.email.toString();
       _clientName = widget.c.name;
       noofacc = widget.c.noOfAcc;
       amountTillNow = widget.c.amount;

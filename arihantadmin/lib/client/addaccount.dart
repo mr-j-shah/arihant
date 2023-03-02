@@ -45,7 +45,7 @@ class _addaccountState extends State<addaccount> {
 
     setState(() {
       _date = formatted;
-
+      _id.text = widget.c.id;
       _clientName = widget.c.name;
       noofacc = widget.c.noOfAcc;
       amountTillNow = widget.c.amount;
@@ -342,6 +342,12 @@ class _addaccountState extends State<addaccount> {
                           isComplete = false;
                         }
                         if (isComplete) {
+                          print(int.parse(_amount.text) + amountTillNow);
+                          print(double.parse(_totalamount.text).toInt() +
+                              remAmountTillNow);
+                          print(noofacc + 1);
+                          print(_id.text);
+                          print(_id.text + (noofacc + 1).toString());
                           Account acc = Account(
                               doc: _date,
                               name: _clientName,
@@ -355,10 +361,7 @@ class _addaccountState extends State<addaccount> {
                                   double.parse(_totalamount.text).toInt());
 
                           bool accCreate = await acc.adddAcc();
-                          print(int.parse(_amount.text) + amountTillNow);
-                          print(double.parse(_totalamount.text).toInt() +
-                              remAmountTillNow);
-                          print(noofacc + 1);
+
                           bool updateclient = await updateClientApi(
                               _id.text,
                               int.parse(_amount.text) + amountTillNow,
