@@ -9,33 +9,20 @@
     }
     else {
         $_POST = json_decode(file_get_contents('php://input'),TRUE);
-        if ($_SERVER["REQUEST_METHOD"]=='POST' && isset($_POST["email"])) 
+        if ($_SERVER["REQUEST_METHOD"]=='GET') 
         {
               
-            $email = $_POST["email"];
-            $usersql = "SELECT * FROM user_table WHERE email='$email'";
-            $updateresult = $conn->query($usersql) or die("Error in Selecting " . mysqli_error($conn));
-            while($value=$updateresult->fetch_assoc()){
-    			 $data[]=$value;
-    		}
-            if( $data[0]["email"]===$email )
-            {
-    	        $sql="SELECT * FROM `client`";
+    	    $sql="SELECT * FROM `client`";
     
-                $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
-    	        if ($result->num_rows > 0) {    
-                    while($row=$result->fetch_assoc()){
-    			        $info[]=$row;
-    		        }
-    	        } else {
-    		        $info = array();	
-    	        }
-    	        echo json_encode($info);
-    	       ////echo "Authenticat";
-            }
-            else{
-                echo "Unauther Access";
-            }
+            $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
+    	    if ($result->num_rows > 0) {    
+                while($row=$result->fetch_assoc()){
+    			    $info[]=$row;
+    	       }
+    	   } else {
+    		  $info = array();	
+    	   }
+    	   echo json_encode($info);
         }
         else{
             echo "Unauther Access";

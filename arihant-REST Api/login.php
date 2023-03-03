@@ -29,7 +29,7 @@
                         $row = $result->fetch_assoc();
                         if ($row["email"] === $username) {
                             if ($row["password"] === $password) {
-                                $info = array("name"=>$row["name"],"email"=>$row["email"],"status"=>"success");
+                                $info = array("name"=>$row["name"],"email"=>$row["email"],"mobile"=>$row["mobile"],"address"=>$row["address"],"image"=>$row["image"],"status"=>"success");
                                 echo  json_encode($info);
                             }
                             else {

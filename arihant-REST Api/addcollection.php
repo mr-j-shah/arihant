@@ -18,7 +18,7 @@
             $collectionamount= $_POST["collectionamount"];
             $accountno = $_POST["accountno"];
             include("updateclientcollection.php");
-            $sql="INSERT INTO `collection`(`collectionid`, `date`, `id`, `email`, `collectionamount`) VALUES ('$collectionid','$date','$id','$email','$collectionamount')";
+            $sql="INSERT INTO `collection`(`collectionid`, `date`, `id`, `email`, `collectionamount`, `accountno`) VALUES ('$collectionid','$date','$id','$email','$collectionamount','$accountno')";
             $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
 	        if ($result) { 
 	            

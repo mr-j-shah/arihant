@@ -11,16 +11,14 @@
         
         $_POST= json_decode(file_get_contents('php://input'),true);
         if ($_SERVER["REQUEST_METHOD"]=='POST' && isset($_POST)) {
-            $id = $_POST["id"];
-            $accountno = $_POST["accountno"];
-            $amount = $_POST["amount"];
-            $remAmount = $_POST["remAmount"];
-            $days = $_POST["days"];
-            $collection = $_POST["collection"];
-            $doc = $_POST["doc"];
+            $name = $_POST["name"];
+            $mobile = $_POST["mobile"];
+            $address = $_POST["address"];
+            $email = $_POST["email"];
             
-            $sql="INSERT INTO `account`(`id`, `accountno`, `amount`, `doc`, `remAmount`, `days`, `collection`, `doe`) VALUES ('$id','$accountno','$amount','$doc','$remAmount','$days','$collection','$doc')";
-            echo $sql;
+            
+            $sql="UPDATE `user_table` SET `name`='$name',`mobile`='$mobile',`address`='$address' WHERE `email`='$email'";
+            
             $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
 
 	        if ($result) { 

@@ -8,21 +8,21 @@
         die("Connection failed: " . $conn->connect_error);
     }
     else {
-        $_POST = json_decode(file_get_contents('php://input'),TRUE);
+        
         if ($_SERVER["REQUEST_METHOD"]=='GET') 
         {
               
-    	    $sql="SELECT name,accountno,client.id,remAmount,days,account.amount,collection,doc FROM account INNER JOIN client on account.id = client.id";
-    
+            $sql="SELECT COUNT(id) as NumofAcc FROM `account` WHERE remAmount>0";
             $result = $conn->query($sql) or die("Error in Selecting " . mysqli_error($conn));
     	    if ($result->num_rows > 0) {    
-                while($row=$result->fetch_assoc()){
-    			    $info[]=$row;
-    	       }
-    	   } else {
-    		  $info = array();	
-    	   }
-    	   echo json_encode($info);
+                while($value=$updateresult->fetch_assoc()){
+    			 $data[]=$value;
+    		    }
+    		    $info["NumofAcc"] = $data[0]["NumofAcc"];
+    	    } else {
+    		    $info = array();	
+            }
+    	    echo json_encode($info);
         }
         else{
             echo "Unauther Access";

@@ -50,7 +50,7 @@ class _client_homeState extends State<client_home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Collector"),
+        title: const Text("Client"),
         backgroundColor: const Color.fromRGBO(36, 59, 85, 1),
       ),
       body: isLoading
