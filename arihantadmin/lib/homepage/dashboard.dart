@@ -195,7 +195,9 @@ class _dashboardState extends State<dashboard> {
                           ),
                           Center(
                             child: Text(
-                              data["collectionToday"] + " \u{20B9}",
+                              data["collectionToday"] != null
+                                  ? data["collectionToday"] + " \u{20B9}"
+                                  : "0 \u{20B9}",
                               style: const TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w700,
