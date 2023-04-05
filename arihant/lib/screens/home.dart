@@ -1,9 +1,5 @@
-import 'package:arihant/screens/addaccount.dart';
-import 'package:arihant/screens/addclient.dart';
 import 'package:arihant/screens/addcollection.dart';
 import 'package:arihant/screens/client/client_home.dart';
-import 'package:arihant/screens/getclientdata.dart';
-import 'package:arihant/screens/graph.dart';
 import 'package:arihant/screens/login.dart';
 import 'package:arihant/screens/user.dart';
 import 'package:arihant/screens/usermanual.dart';

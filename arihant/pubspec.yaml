@@ -38,9 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_session_manager: ^1.0.3
   http: ^0.13.5
-  intl: ^0.17.0
+  intl: ^0.18.0
   searchfield: ^0.7.2
-  syncfusion_flutter_charts: ^20.3.61
+  syncfusion_flutter_charts: ^21.1.38
   connectivity_plus: ^3.0.2
   url_launcher: ^6.1.7
 dev_dependencies:
