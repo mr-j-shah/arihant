@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:searchfield/searchfield.dart';
-
+import 'package:upi_payment_qrcode_generator/upi_payment_qrcode_generator.dart';
 import '../api/authentication.dart';
 import 'home.dart';
 
@@ -28,6 +28,7 @@ class _addcollectionState extends State<addcollection> {
   List<String> idList = [];
   bool isSelected = false;
   bool isComplete = true;
+  String paymentType = "Select";
   final TextEditingController _id = TextEditingController();
   final TextEditingController _clientid = TextEditingController();
   final TextEditingController _collectionamount = TextEditingController();
@@ -39,6 +40,12 @@ class _addcollectionState extends State<addcollection> {
     getdata();
     super.initState();
   }
+
+  List<String> payment = [
+    "Cash",
+    "UPI",
+    "Debit Card",
+  ];
 
   getdata() async {
     final DateTime now = DateTime.now();
@@ -70,6 +77,11 @@ class _addcollectionState extends State<addcollection> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> payment = [
+      "Cash",
+      "UPI",
+      "Debit Card",
+    ];
     // return Container();
     return isLoading
         // ignore: prefer_const_constructors
@@ -266,7 +278,7 @@ class _addcollectionState extends State<addcollection> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: _remainingamount,
-                          // enabled: false,
+                          enabled: false,
                           cursorColor: const Color.fromRGBO(36, 59, 85, 1),
                           // initialValue: _date,
                           decoration: InputDecoration(
@@ -351,6 +363,59 @@ class _addcollectionState extends State<addcollection> {
                 isSelected
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
+                        child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelText: "Payment Method",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                // ignore: prefer_const_constructors
+                                borderSide: BorderSide(
+                                    color: const Color.fromRGBO(36, 59, 85, 1)),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            onChanged: (newValue) {
+                              setState(() {
+                                paymentType = newValue.toString();
+                              });
+                              print(paymentType);
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                  child: Text("Cash"), value: "Cash"),
+                              DropdownMenuItem(
+                                  child: Text("UPI"), value: "UPI"),
+                            ]),
+                      )
+                    : Container(),
+                isSelected
+                    ? paymentType == "UPI"
+                        ? Center(
+                            child: UPIPaymentQRCode(
+                              upiDetails: UPIDetails(
+                                  upiID: "daxay2310@oksbi",
+                                  payeeName: "Daxay Shah",
+                                  amount: double.parse(_collectionamount.text),
+                                  transactionNote:
+                                      _clientid.text + " " + _date),
+                              size: 200,
+                              upiQRErrorCorrectLevel:
+                                  UPIQRErrorCorrectLevel.low,
+                            ),
+                          )
+                        : Container()
+                    : Container(),
+                isSelected
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: (() async {
                             if (isComplete) {
@@ -364,7 +429,8 @@ class _addcollectionState extends State<addcollection> {
                                   _email,
                                   int.parse(_collectionamount.text),
                                   _date,
-                                  _id.text);
+                                  _id.text,
+                                  paymentType);
                               if (status) {
                                 await showDialog(
                                   context: context,

@@ -22,7 +22,7 @@ Future<bool> addpenalty(String id) async {
 }
 
 Future<bool> addcollectionapi(String id, String collectionid, String email,
-    int collectionamount, String date, String accountno) async {
+    int collectionamount, String date, String accountno, String type) async {
   final response = await http.post(
     Uri.parse('http://bhimshaktivicharmanch.com/arihant/addcollection.php'),
     headers: {"Content-Type": "application/json"},
@@ -33,7 +33,8 @@ Future<bool> addcollectionapi(String id, String collectionid, String email,
         'date': date,
         'email': email,
         'collectionamount': collectionamount,
-        'accountno': accountno
+        'accountno': accountno,
+        "type": type
       },
     ),
   );
